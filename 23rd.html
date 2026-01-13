@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>For You 💕</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Helvetica, Arial, sans-serif;
+      background-color: #fff0f5;
+      overflow: hidden;
+    }
+
+    .container {
+      position: relative;
+      width: 500px;
+      height: 650px;
+      margin: 0 auto;
+      background-color: #fff0f5;
+      overflow: hidden;
+    }
+
+    .content-frame {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 16px;
+      font-weight: bold;
+      color: #b30059;
+      margin: 5px 0;
+    }
+
+    .days-together {
+      font-size: 11px;
+      font-weight: bold;
+      color: #800040;
+      margin: 5px 0;
+    }
+
+    .card {
+      background-color: white;
+      color: #4d004d;
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin: 8px auto;
+      max-width: 420px;
+      box-sizing: border-box;
+      font-size: 11px;
+      white-space: pre-line;
+    }
+
+    .daynight-text {
+      font-size: 11px;
+      font-style: italic;
+      color: #4d004d;
+      margin: 6px 0;
+    }
+
+    .switch-frame {
+      margin: 4px 0 8px 0;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn {
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 10px;
+      font-weight: bold;
+      color: #4d004d;
+    }
+
+    .btn-morning {
+      background-color: #ffb3d9;
+      width: 140px;
+    }
+
+    .btn-night {
+      background-color: #d9b3ff;
+      width: 140px;
+    }
+
+    .mood-card {
+      background-color: white;
+      color: #4d004d;
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin: 10px auto;
+      max-width: 420px;
+      box-sizing: border-box;
+      font-size: 12px;
+      white-space: pre-line;
+    }
+
+    .mood-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .mood-btn {
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin: 4px 0;
+      font-size: 11px;
+      font-weight: bold;
+      color: white;
+      background-color: #ff80bf;
+      width: 260px;
+    }
+
+    .mood-btn:active {
+      background-color: #ff4da6;
+    }
+
+    .secret {
+      margin: 15px auto;
+      max-width: 420px;
+      font-size: 11px;
+      font-weight: bold;
+      color: #b30059;
+      white-space: pre-line;
+    }
+
+    .footer {
+      font-size: 9px;
+      color: #800040;
+      margin: 5px 0 0 0;
+    }
+
+    /* Hearts */
+    .heart {
+      position: absolute;
+      font-size: 18px;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="container">
+    <div class="content-frame">
+      <h1>How Are You Feeling Today? 💖</h1>
+      <div class="days-together" id="daysTogether"></div>
+
+      <div class="card" id="dailyMessage"></div>
+
+      <div class="daynight-text" id="dayNightLabel">
+        Tap below for a message 💗
+      </div>
+
+      <div class="switch-frame">
+        <button class="btn btn-morning" id="btnMorning">☀️ Good Morning</button>
+        <button class="btn btn-night" id="btnNight">🌙 Good Night</button>
+      </div>
+
+      <div class="mood-card" id="moodMessage">
+        Choose a mood and I’ll be right here 🤍
+      </div>
+
+      <div class="mood-buttons" id="moodButtons"></div>
+
+      <div class="secret" id="secretMessage"></div>
+
+      <div class="footer">
+        Made with love, just for you 💗
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== DATES =====
+    const START_DATE = new Date(2023, 10, 23); // month is 0-based: 10 = November
+    const today = new Date();
+
+    function daysBetween(start, end) {
+      const oneDay = 1000 * 60 * 60 * 24;
+      const diffInTime = end.getTime() - start.getTime();
+      return Math.floor(diffInTime / oneDay);
+    } // [web:12]
+
+    const days_together = daysBetween(START_DATE, today);
+
+    // ===== DAILY MESSAGES =====
+    const daily_messages = [
+      "I hope today treats you gently 💖",
+      "No matter what today brings, I’m here for you 🤍",
+      "You are loved more than you realize 🌸",
+      "Today is better because you exist 💫",
+      "Take today one breath at a time, love 🫶",
+      "I believe in you, especially today 💕",
+      "Even on ordinary days, you are special 🌷",
+      "You don’t have to be perfect to be loved 💖"
+    ];
+
+    function getOrdinalDay(d) {
+      return Math.floor(d.getTime() / (1000 * 60 * 60 * 24));
+    }
+
+    const daily_message =
+      daily_messages[getOrdinalDay(today) % daily_messages.length];
+
+    // ===== DAY / NIGHT MESSAGES =====
+    const morning_message =
+      "Good morning, my love ☀️ I hope today is kind to you 💖";
+    const night_message =
+      "Good night, my love 🌙 Rest well. I’m so proud of you 🤍";
+
+    // ===== MOOD MESSAGES =====
+    const mood_messages = {
+      "Happy 😊": "Seeing you happy makes my whole world brighter 💖",
+      "Sad 😔": "It’s okay to feel sad. I’ll sit with you through it 🤍",
+      "Stressed 😤": "Pause. Breathe. You’re doing your best 🌱",
+      "Miss You 💭": "I miss you too—always and in every way 💕",
+      "Tired 😴": "Rest, my love. You deserve peace 🌙"
+    };
+
+    const clicked_moods = new Set();
+    const all_moods = new Set(Object.keys(mood_messages));
+
+    // ===== DOM ELEMENTS =====
+    const daysTogetherEl = document.getElementById("daysTogether");
+    const dailyMessageEl = document.getElementById("dailyMessage");
+    const dayNightLabelEl = document.getElementById("dayNightLabel");
+    const moodMessageEl = document.getElementById("moodMessage");
+    const secretMessageEl = document.getElementById("secretMessage");
+    const moodButtonsEl = document.getElementById("moodButtons");
+    const btnMorning = document.getElementById("btnMorning");
+    const btnNight = document.getElementById("btnNight");
+    const container = document.getElementById("container");
+
+    // ===== INITIAL TEXTS =====
+    daysTogetherEl.textContent =
+      "💞 " + days_together + " days together since Nov 23, 2023";
+    dailyMessageEl.textContent = "Today’s message:\n" + daily_message;
+
+    // ===== FUNCTIONS =====
+    function show_message(mood) {
+      clicked_moods.add(mood);
+      moodMessageEl.textContent = mood_messages[mood];
+
+      if (clicked_moods.size === all_moods.size) {
+        unlock_secret();
+      }
+    }
+
+    function unlock_secret() {
+      secretMessageEl.textContent =
+        "🎁 Secret unlocked 💖\n\n" +
+        "Every day with you is my favorite.\n" +
+        "I’d choose you in every lifetime.";
+    }
+
+    function show_morning() {
+      dayNightLabelEl.textContent = morning_message;
+    }
+
+    function show_night() {
+      dayNightLabelEl.textContent = night_message;
+    }
+
+    // ===== MOOD BUTTONS RENDER =====
+    Object.keys(mood_messages).forEach((mood) => {
+      const btn = document.createElement("button");
+      btn.className = "mood-btn";
+      btn.textContent = mood;
+      btn.addEventListener("click", () => show_message(mood));
+      moodButtonsEl.appendChild(btn);
+    });
+
+    // ===== BUTTON EVENTS =====
+    btnMorning.addEventListener("click", show_morning);
+    btnNight.addEventListener("click", show_night);
+
+    // ===== HEART ANIMATION =====
+    const hearts = [];
+
+    function create_heart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "💖";
+      const x = Math.floor(Math.random() * 460) + 20;
+      const y = 620;
+
+      heart.style.left = x + "px";
+      heart.style.top = y + "px";
+
+      container.appendChild(heart);
+      hearts.push(heart);
+    }
+
+    function animate_hearts() {
+      if (Math.random() < 0.25) {
+        create_heart();
+      }
+
+      for (let i = hearts.length - 1; i >= 0; i--) {
+        const heart = hearts[i];
+        const currentY = parseFloat(heart.style.top);
+        const newY = currentY - 2;
+        heart.style.top = newY + "px";
+
+        if (newY < -20) {
+          container.removeChild(heart);
+          hearts.splice(i, 1);
+        }
+      }
+
+      requestAnimationFrame(animate_hearts); // smooth animation [web:19]
+    }
+
+    animate_hearts();
+  </script>
+</body>
+</html>
