@@ -1,1 +1,1 @@
-Hi! this repository is made to show my love for my dearest baby.
+Hi! this repository is made for fun and request.
