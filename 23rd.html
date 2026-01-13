@@ -140,46 +140,148 @@
       margin: 5px 0 0 0;
     }
 
-    /* Hearts */
-    .heart {
-      position: absolute;
+    /* Password overlay */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .password-box {
+      background: #ffffff;
+      padding: 20px 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      max-width: 320px;
+      width: 90%;
+      text-align: center;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    .password-box h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
       font-size: 18px;
-      pointer-events: none;
+      color: #b30059;
+    }
+
+    .password-box p {
+      margin: 4px 0 10px 0;
+      font-size: 12px;
+      color: #4d004d;
+    }
+
+    .password-box input[type="password"] {
+      width: 100%;
+      padding: 8px 10px;
+      margin: 6px 0 10px 0;
+      border-radius: 6px;
+      border: 1px solid #e0a4c5;
+      box-sizing: border-box;
+      font-size: 12px;
+    }
+
+    .password-box button {
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: bold;
+      color: #4d004d;
+      background-color: #ffb3d9;
+    }
+
+    .error-text {
+      color: #cc0033;
+      font-size: 11px;
+      min-height: 16px;
+      margin-top: 4px;
+    }
+
+    /* Hide app until unlocked */
+    #appContent[hidden] {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="container" id="container">
-    <div class="content-frame">
-      <h1>How Are You Feeling Today? 💖</h1>
-      <div class="days-together" id="daysTogether"></div>
+  <!-- Password overlay -->
+  <div class="overlay" id="passwordOverlay">
+    <div class="password-box">
+      <h2>Hi, my love 💕</h2>
+      <p>This little space is just for you. Enter our secret word to open it.</p>
+      <input type="password" id="passwordInput" placeholder="Our little secret..." />
+      <button id="passwordButton">Unlock</button>
+      <div class="error-text" id="passwordError"></div>
+    </div>
+  </div>
 
-      <div class="card" id="dailyMessage"></div>
+  <!-- App content (hidden until password is correct) -->
+  <div id="appContent" hidden>
+    <div class="container" id="container">
+      <div class="content-frame">
+        <h1>How Are You Feeling Today? 💖</h1>
+        <div class="days-together" id="daysTogether"></div>
 
-      <div class="daynight-text" id="dayNightLabel">
-        Tap below for a message 💗
-      </div>
+        <div class="card" id="dailyMessage"></div>
 
-      <div class="switch-frame">
-        <button class="btn btn-morning" id="btnMorning">☀️ Good Morning</button>
-        <button class="btn btn-night" id="btnNight">🌙 Good Night</button>
-      </div>
+        <div class="daynight-text" id="dayNightLabel">
+          Tap below for a message 💗
+        </div>
 
-      <div class="mood-card" id="moodMessage">
-        Choose a mood and I’ll be right here 🤍
-      </div>
+        <div class="switch-frame">
+          <button class="btn btn-morning" id="btnMorning">☀️ Good Morning</button>
+          <button class="btn btn-night" id="btnNight">🌙 Good Night</button>
+        </div>
 
-      <div class="mood-buttons" id="moodButtons"></div>
+        <div class="mood-card" id="moodMessage">
+          Choose a mood and I’ll be right here 🤍
+        </div>
 
-      <div class="secret" id="secretMessage"></div>
+        <div class="mood-buttons" id="moodButtons"></div>
 
-      <div class="footer">
-        Made with love, just for you 💗
+        <div class="secret" id="secretMessage"></div>
+
+        <div class="footer">
+          Made with love, just for you 💗
+        </div>
       </div>
     </div>
   </div>
 
   <script>
+    // ===== Simple password protection (front-end only) =====
+    const PASSWORD = "112323"; // change this to any password you like
+    const passwordOverlay = document.getElementById("passwordOverlay");
+    const passwordInput = document.getElementById("passwordInput");
+    const passwordButton = document.getElementById("passwordButton");
+    const passwordError = document.getElementById("passwordError");
+    const appContent = document.getElementById("appContent");
+
+    function tryUnlock() {
+      const entered = passwordInput.value;
+      if (entered === PASSWORD) {
+        appContent.hidden = false;
+        passwordOverlay.style.display = "none";
+        passwordInput.value = "";
+        passwordError.textContent = "";
+      } else {
+        passwordError.textContent = "That doesn’t seem right. Try again, love. 🤍";
+      }
+    } // [web:26][web:33]
+
+    passwordButton.addEventListener("click", tryUnlock);
+    passwordInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        tryUnlock();
+      }
+    });
+
     // ===== DATES =====
     const START_DATE = new Date(2023, 10, 23); // month is 0-based: 10 = November
     const today = new Date();
@@ -188,7 +290,7 @@
       const oneDay = 1000 * 60 * 60 * 24;
       const diffInTime = end.getTime() - start.getTime();
       return Math.floor(diffInTime / oneDay);
-    } // [web:12]
+    }
 
     const days_together = daysBetween(START_DATE, today);
 
@@ -215,112 +317,4 @@
     const morning_message =
       "Good morning, my love ☀️ I hope today is kind to you 💖";
     const night_message =
-      "Good night, my love 🌙 Rest well. I’m so proud of you 🤍";
-
-    // ===== MOOD MESSAGES =====
-    const mood_messages = {
-      "Happy 😊": "Seeing you happy makes my whole world brighter 💖",
-      "Sad 😔": "It’s okay to feel sad. I’ll sit with you through it 🤍",
-      "Stressed 😤": "Pause. Breathe. You’re doing your best 🌱",
-      "Miss You 💭": "I miss you too—always and in every way 💕",
-      "Tired 😴": "Rest, my love. You deserve peace 🌙"
-    };
-
-    const clicked_moods = new Set();
-    const all_moods = new Set(Object.keys(mood_messages));
-
-    // ===== DOM ELEMENTS =====
-    const daysTogetherEl = document.getElementById("daysTogether");
-    const dailyMessageEl = document.getElementById("dailyMessage");
-    const dayNightLabelEl = document.getElementById("dayNightLabel");
-    const moodMessageEl = document.getElementById("moodMessage");
-    const secretMessageEl = document.getElementById("secretMessage");
-    const moodButtonsEl = document.getElementById("moodButtons");
-    const btnMorning = document.getElementById("btnMorning");
-    const btnNight = document.getElementById("btnNight");
-    const container = document.getElementById("container");
-
-    // ===== INITIAL TEXTS =====
-    daysTogetherEl.textContent =
-      "💞 " + days_together + " days together since Nov 23, 2023";
-    dailyMessageEl.textContent = "Today’s message:\n" + daily_message;
-
-    // ===== FUNCTIONS =====
-    function show_message(mood) {
-      clicked_moods.add(mood);
-      moodMessageEl.textContent = mood_messages[mood];
-
-      if (clicked_moods.size === all_moods.size) {
-        unlock_secret();
-      }
-    }
-
-    function unlock_secret() {
-      secretMessageEl.textContent =
-        "🎁 Secret unlocked 💖\n\n" +
-        "Every day with you is my favorite.\n" +
-        "I’d choose you in every lifetime.";
-    }
-
-    function show_morning() {
-      dayNightLabelEl.textContent = morning_message;
-    }
-
-    function show_night() {
-      dayNightLabelEl.textContent = night_message;
-    }
-
-    // ===== MOOD BUTTONS RENDER =====
-    Object.keys(mood_messages).forEach((mood) => {
-      const btn = document.createElement("button");
-      btn.className = "mood-btn";
-      btn.textContent = mood;
-      btn.addEventListener("click", () => show_message(mood));
-      moodButtonsEl.appendChild(btn);
-    });
-
-    // ===== BUTTON EVENTS =====
-    btnMorning.addEventListener("click", show_morning);
-    btnNight.addEventListener("click", show_night);
-
-    // ===== HEART ANIMATION =====
-    const hearts = [];
-
-    function create_heart() {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.textContent = "💖";
-      const x = Math.floor(Math.random() * 460) + 20;
-      const y = 620;
-
-      heart.style.left = x + "px";
-      heart.style.top = y + "px";
-
-      container.appendChild(heart);
-      hearts.push(heart);
-    }
-
-    function animate_hearts() {
-      if (Math.random() < 0.25) {
-        create_heart();
-      }
-
-      for (let i = hearts.length - 1; i >= 0; i--) {
-        const heart = hearts[i];
-        const currentY = parseFloat(heart.style.top);
-        const newY = currentY - 2;
-        heart.style.top = newY + "px";
-
-        if (newY < -20) {
-          container.removeChild(heart);
-          hearts.splice(i, 1);
-        }
-      }
-
-      requestAnimationFrame(animate_hearts); // smooth animation [web:19]
-    }
-
-    animate_hearts();
-  </script>
-</body>
-</html>
+      "Good night, my love 🌙 Rest well. I’m so proud of you
