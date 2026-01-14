@@ -1,329 +1,8 @@
 import tkinter as tk
-from tkinter import ttk, scrolledtext, messagebox
 import random
-from datetime import date, datetime
-import calendar as cal
+from datetime import date
 import os
 import json
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-
-# ================= COLOR AND FONT CONSTANTS =================
-COLORS = {
-    'bg_main': '#fff0f5',
-    'bg_light': '#ffe6f0',
-    'primary': '#ff66a3',
-    'secondary': '#9966ff',
-    'accent': '#b30059',
-    'text_dark': '#4d004d',
-    'text_light': '#800040',
-    'success': '#66cc66',
-    'white': '#ffffff',
-    'pink_light': '#ffb3d9',
-    'purple_light': '#d9b3ff'
-}
-
-FONTS = {
-    'title': ('Helvetica', 16, 'bold'),
-    'heading': ('Helvetica', 14, 'bold'),
-    'body': ('Helvetica', 11),
-    'small': ('Helvetica', 9),
-    'button': ('Helvetica', 11, 'bold')
-}
-
-# ================= FILE PATHS =================
-HIGHSCORE_FILE = "highscore.txt"
-ACHIEVEMENTS_FILE = "achievements.json"
-JOURNAL_FILE = "journal_entries.json"
-SETTINGS_FILE = "settings.json"
-EMAIL_CONFIG_FILE = "email_config.json"
-ERROR_LOG_FILE = "error_log.txt"
-
-# ================= EMAIL NOTIFIER CLASS =================
-class EmailNotifier:
-    """Handles email notifications for journal entries"""
-    
-    def __init__(self):
-        self.config = self.load_config()
-    
-    def load_config(self):
-        """Load email configuration from file"""
-        try:
-            if os.path.exists(EMAIL_CONFIG_FILE):
-                with open(EMAIL_CONFIG_FILE, 'r') as f:
-                    return json.load(f)
-            else:
-                # Create default config from template
-                default_config = {
-                    "smtp_server": "smtp.gmail.com",
-                    "smtp_port": 587,
-                    "sender_email": "",
-                    "sender_password": "",
-                    "recipient_email": "",
-                    "notifications_enabled": False
-                }
-                with open(EMAIL_CONFIG_FILE, 'w') as f:
-                    json.dump(default_config, f, indent=4)
-                return default_config
-        except Exception as e:
-            self.log_error(f"Error loading email config: {str(e)}")
-            return None
-    
-    def save_config(self, config):
-        """Save email configuration to file"""
-        try:
-            with open(EMAIL_CONFIG_FILE, 'w') as f:
-                json.dump(config, f, indent=4)
-            self.config = config
-            return True
-        except Exception as e:
-            self.log_error(f"Error saving email config: {str(e)}")
-            return False
-    
-    def send_journal_notification(self, entry_data):
-        """
-        Send email notification when new journal entry is created
-        Returns: (success: bool, error_message: str)
-        """
-        if not self.config or not self.config.get('notifications_enabled', False):
-            return (False, "Notifications disabled")
-        
-        # Validate configuration
-        if not self.config.get('sender_email') or not self.config.get('sender_password'):
-            return (False, "Email not configured. Please check Settings tab.")
-        
-        if not self.config.get('recipient_email'):
-            return (False, "Recipient email not set")
-        
-        try:
-            # Create message
-            msg = MIMEMultipart()
-            msg['From'] = self.config['sender_email']
-            msg['To'] = self.config['recipient_email']
-            
-            # Create subject with mood emoji
-            mood_text = entry_data.get('mood', 'Unknown')
-            date_str = entry_data.get('date', datetime.now().strftime('%Y-%m-%d'))
-            msg['Subject'] = f"💕 New Journal Entry from Bianca - {mood_text} - {date_str}"
-            
-            # Create body
-            body = f"""
-Hello! 💖
-
-Bianca just wrote a new journal entry:
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Date: {entry_data.get('date', 'Unknown')}
-Time: {entry_data.get('timestamp', 'Unknown')}
-Mood: {entry_data.get('mood', 'Unknown')}
-Days Together: {entry_data.get('days_together', 'N/A')}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-{entry_data.get('entry', '')}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Keep being there for her, she loves you so much! 💗
-
-With love,
-Your EverydayMood App 💕
-            """
-            
-            msg.attach(MIMEText(body, 'plain'))
-            
-            # Connect to SMTP server and send
-            server = smtplib.SMTP(self.config['smtp_server'], self.config['smtp_port'])
-            server.starttls()
-            server.login(self.config['sender_email'], self.config['sender_password'])
-            server.send_message(msg)
-            server.quit()
-            
-            return (True, "Email sent successfully!")
-            
-        except smtplib.SMTPAuthenticationError:
-            error_msg = "Authentication failed. Please check your email and password."
-            self.log_error(error_msg)
-            return (False, error_msg)
-        except smtplib.SMTPException as e:
-            error_msg = f"SMTP error: {str(e)}"
-            self.log_error(error_msg)
-            return (False, error_msg)
-        except Exception as e:
-            error_msg = f"Error sending email: {str(e)}"
-            self.log_error(error_msg)
-            return (False, error_msg)
-    
-    def log_error(self, message):
-        """Log errors to file"""
-        try:
-            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            with open(ERROR_LOG_FILE, 'a') as f:
-                f.write(f"[{timestamp}] {message}\n")
-        except:
-            pass  # Silently fail if can't write to log
-
-
-# ================= JOURNAL MANAGER CLASS =================
-class JournalManager:
-    """Manages journal entries and statistics"""
-    
-    def __init__(self):
-        self.entries = self.load_entries()
-        self.email_notifier = EmailNotifier()
-    
-    def load_entries(self):
-        """Load journal entries from file"""
-        try:
-            if os.path.exists(JOURNAL_FILE):
-                with open(JOURNAL_FILE, 'r') as f:
-                    return json.load(f)
-            return []
-        except Exception as e:
-            self.log_error(f"Error loading journal entries: {str(e)}")
-            return []
-    
-    def save_entries(self):
-        """Save journal entries to file"""
-        try:
-            with open(JOURNAL_FILE, 'w') as f:
-                json.dump(self.entries, f, indent=4)
-            return True
-        except Exception as e:
-            self.log_error(f"Error saving journal entries: {str(e)}")
-            return False
-    
-    def add_entry(self, mood, entry_text, days_together):
-        """Add a new journal entry"""
-        now = datetime.now()
-        new_entry = {
-            "id": len(self.entries) + 1,
-            "timestamp": now.strftime('%Y-%m-%d %H:%M:%S'),
-            "date": now.strftime('%Y-%m-%d'),
-            "mood": mood,
-            "entry": entry_text,
-            "email_sent": False,
-            "days_together": days_together
-        }
-        
-        self.entries.append(new_entry)
-        
-        # Try to send email
-        success, message = self.email_notifier.send_journal_notification(new_entry)
-        new_entry['email_sent'] = success
-        
-        # Save regardless of email status
-        self.save_entries()
-        
-        return (True, message, success)
-    
-    def get_entries(self, mood_filter=None, search_term=None):
-        """Get filtered journal entries"""
-        filtered = self.entries
-        
-        if mood_filter and mood_filter != "All Moods":
-            filtered = [e for e in filtered if e.get('mood') == mood_filter]
-        
-        if search_term:
-            search_lower = search_term.lower()
-            filtered = [e for e in filtered if search_lower in e.get('entry', '').lower()]
-        
-        return sorted(filtered, key=lambda x: x.get('timestamp', ''), reverse=True)
-    
-    def get_statistics(self):
-        """Calculate journal statistics"""
-        if not self.entries:
-            return {
-                'total_entries': 0,
-                'writing_streak': 0,
-                'most_common_mood': 'N/A',
-                'first_entry_date': 'N/A'
-            }
-        
-        # Count moods
-        mood_counts = {}
-        for entry in self.entries:
-            mood = entry.get('mood', 'Unknown')
-            mood_counts[mood] = mood_counts.get(mood, 0) + 1
-        
-        most_common_mood = max(mood_counts.items(), key=lambda x: x[1])[0] if mood_counts else 'N/A'
-        
-        # Calculate streak (consecutive days)
-        dates = sorted(set(e.get('date', '') for e in self.entries), reverse=True)
-        streak = 0
-        if dates:
-            today = datetime.now().strftime('%Y-%m-%d')
-            current_date = datetime.strptime(dates[0], '%Y-%m-%d')
-            
-            for date_str in dates:
-                entry_date = datetime.strptime(date_str, '%Y-%m-%d')
-                if (current_date - entry_date).days <= 1:
-                    streak += 1
-                    current_date = entry_date
-                else:
-                    break
-        
-        return {
-            'total_entries': len(self.entries),
-            'writing_streak': streak,
-            'most_common_mood': most_common_mood,
-            'first_entry_date': self.entries[0].get('date', 'N/A') if self.entries else 'N/A'
-        }
-    
-    def log_error(self, message):
-        """Log errors to file"""
-        try:
-            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            with open(ERROR_LOG_FILE, 'a') as f:
-                f.write(f"[{timestamp}] {message}\n")
-        except:
-            pass
-
-
-# ================= SETTINGS MANAGER =================
-class SettingsManager:
-    """Manages application settings"""
-    
-    def __init__(self):
-        self.settings = self.load_settings()
-    
-    def load_settings(self):
-        """Load settings from file"""
-        default_settings = {
-            'theme': 'light',
-            'font_size': 'medium',
-            'animations_enabled': True,
-            'accent_color': COLORS['primary']
-        }
-        
-        try:
-            if os.path.exists(SETTINGS_FILE):
-                with open(SETTINGS_FILE, 'r') as f:
-                    loaded = json.load(f)
-                    default_settings.update(loaded)
-        except:
-            pass
-        
-        return default_settings
-    
-    def save_settings(self):
-        """Save settings to file"""
-        try:
-            with open(SETTINGS_FILE, 'w') as f:
-                json.dump(self.settings, f, indent=4)
-            return True
-        except:
-            return False
-    
-    def get(self, key, default=None):
-        """Get a setting value"""
-        return self.settings.get(key, default)
-    
-    def set(self, key, value):
-        """Set a setting value"""
-        self.settings[key] = value
-        self.save_settings()
-
 
 # ================= PASSWORD PROTECTION =================
 def check_password():
@@ -341,37 +20,37 @@ def on_enter_key(event):
     check_password()
 
 # Create login window
-login_window = tk.Tk()
-login_window.title("For Bianca Nichole B. Oxcello ")
+login_window = tk.  Tk()
+login_window.title("For Bianca Nichole B.  Oxcello ")
 login_window.geometry("450x350")
 login_window.resizable(False, False)
-login_window.configure(bg=COLORS['bg_main'])
+login_window.configure(bg="#fff0f5")
 
 # Center the window
-login_window.eval('tk::PlaceWindow . center')
+login_window.eval('tk::PlaceWindow .   center')
 
 # Login content
 tk.Label(
     login_window,
     text="💖",
     font=("Arial", 48),
-    bg=COLORS['bg_main']
+    bg="#fff0f5"
 ).pack(pady=20)
 
 tk.Label(
     login_window,
     text="Enter Password",
-    font=FONTS['title'],
-    bg=COLORS['bg_main'],
-    fg=COLORS['accent']
+    font=("Helvetica", 16, "bold"),
+    bg="#fff0f5",
+    fg="#b30059"
 ).pack(pady=5)
 
 tk.Label(
     login_window,
     text="(Hint: Our special date! )",
-    font=FONTS['small'],
-    bg=COLORS['bg_main'],
-    fg=COLORS['text_light']
+    font=("Helvetica", 9, "italic"),
+    bg="#fff0f5",
+    fg="#800040"
 ).pack(pady=2)
 
 # Password entry
@@ -386,11 +65,11 @@ password_entry.pack(pady=15)
 password_entry.focus()
 
 # Error label
-error_label = tk.Label(
+error_label = tk.  Label(
     login_window,
     text="",
     font=("Helvetica", 10),
-    bg=COLORS['bg_main'],
+    bg="#fff0f5",
     fg="#cc0000"
 )
 error_label.pack(pady=5)
@@ -399,9 +78,9 @@ error_label.pack(pady=5)
 submit_button = tk.Button(
     login_window,
     text=" Enter ",
-    font=FONTS['heading'],
-    bg=COLORS['primary'],
-    fg=COLORS['white'],
+    font=("Helvetica", 14, "bold"),
+    bg="#ff66a3",
+    fg="white",
     width=20,
     height=2,
     cursor="hand2",
