@@ -2,6 +2,8 @@ import tkinter as tk
 import random
 from datetime import date
 import os
+import json
+
 # ================= DATES =================
 START_DATE = date(2023, 11, 23)
 today = date.today()
@@ -20,7 +22,7 @@ daily_messages = [
     "Your presence makes everything brighter ",
     "I'm grateful for you every single day ",
     "You're doing better than you think ",
-    "Remember:   you are enough, always ",
+    "Remember:    you are enough, always ",
     "Sending you all my love today ",
     "You make my world so much better ",
     "I'm proud of you for getting through today ",
@@ -42,39 +44,40 @@ daily_message = daily_messages[today.toordinal() % len(daily_messages)]
 
 # ================= DAY / NIGHT MESSAGES =================
 morning_messages = [
-    "Good morning, my baby!   I hope today is kind to you ",
+    "Good morning, my baby!    I hope today is kind to you ",
     "Rise and shine, beautiful! Today is your day ",
-    "Good morning!  You're the first thing on my mind ",
+    "Good morning!   You're the first thing on my mind ",
     "Wake up, sunshine! The world needs your light ",
-    "Morning, love! I believe in you today and always ",
-    "Good morning!   Remember, you're amazing ",
-    "Hey there!   Sending you morning hugs ",
+    "Morning, love!  I believe in you today and always ",
+    "Good morning!    Remember, you're amazing ",
+    "Hi there!    Sending you morning hugs ",
     "Good morning!  May your day be as sweet as you ",
     "Morning, my heart! You've got this ",
-    "Good morning! Start your day knowing you're loved ",
+    "Good morning!  Start your day knowing you're loved ",
     "Wake up, love! A new day of possibilities awaits ",
-    "Good morning!   I'm here with you, always ",
-    "Morning!   Your smile is my favorite sunrise ",
-    "Good morning! Take it easy on yourself today ",
-    "Hey love!  Today will be wonderful because you're in it "
+    "Good morning!    I'm here with you, always ",
+    "Morning!    Your smile is my favorite sunrise ",
+    "Good morning!  Take it easy on yourself today ",
+    "Hey baby!  Today will be wonderful because you're in it "
 ]
 
 night_messages = [
-    "Good night, my darlingg.   Rest well.   I'm so proud of you ",
-    "Sweet dreams, beautiful.  You deserve peaceful sleep ",
-    "Good night!   Tomorrow is a fresh start ",
-    "Sleep tight, love. I'll be here when you wake ",
+    "Good night, my darlingg.    Rest well.    I'm so proud of you ",
+    "Sweet dreams, beautiful.   You deserve peaceful sleep ",
+    "Good night!    Tomorrow is a fresh start ",
+    "Sleep tight, love.  I'll be here when you wake ",
     "Good night!  You did your best today, and that's enough ",
     "Rest well, my heart. Let go of today's worries ",
     "Good night!  May your dreams be as sweet as you are ",
-    "Sleep peacefully.   You are safe and loved ",
+    "Sleep peacefully.    You are safe and loved ",
     "Good night, love!   Recharge for tomorrow ",
-    "Sweet dreams!   I'm proud of everything you did today ",
-    "Good night!   Let the stars watch over you tonight ",
+    "Sweet dreams!    I'm proud of everything you did today ",
+    "Good night!    Let the stars watch over you tonight ",
     "Rest now, you've earned it.  Sleep well ",
-    "Good night! Close your eyes and feel my love ",
-    "Sleep tight!   Tomorrow is another chance to shine ",
-    "Good night, my everything.   Dream of me"
+    "Good night!  Close your eyes and feel my love ",
+    "Sleep tight!    Tomorrow is another chance to shine ",
+    "Good night, my dearest baby.    Dream of me.",
+    "Good night! I love you more than the stars in the sky "
 ]
 
 # Pick one at random each time
@@ -85,38 +88,38 @@ night_message = random.choice(night_messages)
 mood_messages = {
     "Happy 😊": [
         "Seeing you happy makes my whole world brighter ",
-        "Your happiness is contagious!   Keep shining ",
+        "Your happiness is contagious!    Keep shining ",
         "I love seeing you smile like this ",
         "Your joy fills my heart with warmth ",
-        "This is the energy I love to see from you!  ",
-        "Keep that beautiful smile going, baby!   ",
+        "This is the energy I love to see from you!   ",
+        "Keep that beautiful smile going, baby!    ",
         "Your happiness is my favorite sight ",
-        "I'm so glad to see you feeling good today!   ",
+        "I'm so glad to see you feeling good today!    ",
         "Your smile is my favorite sight in the world",
-        "Happiness looks so good on you!  ",
+        "Happiness looks so good on you!   ",
         "Your joy lights up my life like nothing else ",
-        "Keep shining, love! Your happiness is beautiful ",
+        "Keep shining, love!  Your happiness is beautiful ",
         "Seeing you happy makes me the happiest person alive "
     ],
     "Sad 😔": [
-        "It's okay to feel sad.   I'll sit with you through it ",
+        "It's okay to feel sad.    I'll sit with you through it ",
         "Your tears are valid.  Let them flow, I'm here ",
-        "Sadness is just love with nowhere to go.   I'm here for you ",
+        "Sadness is just love with nowhere to go.    I'm here for you ",
         "You don't have to be strong right now.  Just be ",
-        "I'm holding space for your sadness. You're not alone"
-        "Aww, my love. I'm here for you.",
+        "I'm holding space for your sadness.  You're not alone"
+        "Aww, my love.  I'm here for you.",
         "It's okay to feel down sometimes.  I'm here",
-        "Go ahead and let it out, baby. I'm right here for you ",
+        "Go ahead and let it out, baby.  I'm right here for you ",
         "I'm sending you all my love and hugs right now ",
         "Remember, it's okay to not be okay sometimes "
     ],
     "Stressed 😤": [
-        "Pause.  Breathe. You're doing your best ",
-        "One thing at a time, love. You've got this",
+        "Pause.   Breathe.  You're doing your best ",
+        "One thing at a time, love.  You've got this",
         "Stress means you care. But remember to care for yourself too",
-        "Take a deep breath.  Everything will work out ",
-        "You're handling so much.   I'm proud of you",
-        "Maybe you should take a little break?   You deserve it",
+        "Take a deep breath.   Everything will work out ",
+        "You're handling so much.    I'm proud of you",
+        "Maybe you should take a little break?    You deserve it",
         "Take it easy on yourself, baby.  You're amazing just as you are "
     ],
     "Miss You 💭": [
@@ -133,38 +136,38 @@ mood_messages = {
         "I carry you in my heart wherever I go and I hope you feel the same"
     ],
     "Tired 😴": [
-        "Rest, my love. You deserve peace ",
-        "Being tired means you've been working hard.   Time to rest na ha",
+        "Rest, my love.  You deserve peace ",
+        "Being tired means you've been working hard.    Time to rest na ha",
         "Your body needs care.  Please rest, baby",
-        "It's okay to pause.   Recharge your energy baby",
-        "Tired is valid. Be gentle with yourself tonight or today",
+        "It's okay to pause.    Recharge your energy baby",
+        "Tired is valid.  Be gentle with yourself tonight or today",
         "I'm here to help you relax.",
-        "Let me take care of you, my baby : (",
+        "Let me take care of you, my baby :  (",
         "You deserve all the rest in the world"
     ],
     "Anxious 😰": [
         "Anxiety lies. You are safe and you are loved",
-        "Breathe with me.  In...   and out.  You're okay ",
+        "Breathe with me.   In...    and out.   You're okay ",
         "This feeling will pass.   I'm here while it does ",
         "Your anxiety doesn't define you.  You're so much more ",
         "One moment at a time.   You're doing great",
-        "I'm right here with you, always."
+        "I'm right here with you, always.",
         "Everything will be okay, my love"
     ],
     "Excited 🎉": [
-        "Your excitement is adorable! Tell me everything!  ",
+        "Your excitement is adorable!  Tell me everything!   ",
         "I love seeing you this energized!  ",
-        "Your enthusiasm is so cute!   So proud of you! ",
-        "Yes baby!  ",
-        "Your joy makes my day!  Keep shining!"
-        "Good news?   Tell me all about it!"
+        "Your enthusiasm is so cute!   So proud of you!  ",
+        "Yes baby!   ",
+        "Your joy makes my day!  Keep shining!",
+        "Good news?    Tell me all about it!"
     ],
     "Lonely 💔": [
         "You're never truly alone.  I'm always with you ",
         "I see you, I hear you, and you matter ",
         "Loneliness is temporary.   You are deeply loved ",
         "Even from afar, you're in my heart always ",
-        "I wish I could hug you right now.   Sending virtual hugs 🤗",
+        "I wish I could hug you right now.    Sending virtual hugs 🤗",
         "Even when you can't see me, I am with you"
     ]
 }
@@ -173,7 +176,7 @@ mood_messages = {
 monthly_23rd_messages = {
     1: {  # January
         "title": "NEW YEAR, SAME LOVE",
-        "message":  (
+        "message":   (
             "Happy New Year, my baby!\n\n"
             "As we start another year together,\n"
             "I want you to know that my love for you\n"
@@ -186,8 +189,8 @@ monthly_23rd_messages = {
         )
     },
     2: {  # February
-        "title":  "HAPPY VALENTINE'S AND MOTMOT",
-        "message": (
+        "title":   "HAPPY VALENTINE'S AND MOTMOT",
+        "message":  (
             "Happy Monthsarry, baby!\n\n"
             "February is for lovers, and you are mine.\n"
             "Every beat of my heart spells your name.\n\n"
@@ -249,7 +252,7 @@ monthly_23rd_messages = {
         )
     },
     7: {  # July
-        "title":  "MONTHSARRYYY",
+        "title":   "MONTHSARRYYY",
         "message": (
             "Happy 23rd of the day this month, my Bianca!\n\n"
             "You light up my life in the most magical ways,\n"
@@ -288,7 +291,7 @@ monthly_23rd_messages = {
     10: {  # October
         "title": "Another Month with You",
         "message": (
-            "Happy October 23rd, my bae! Hapit na Halloween soo\n\n"
+            "Happy October 23rd, my bae!  Hapit na Halloween soo\n\n"
             "I'm under your spell, and I never want to break free.\n"
             "You've bewitched me, body and soul.\n\n"
             "Every day with you is a treat (no tricks bisag LDR),\n"
@@ -301,7 +304,7 @@ monthly_23rd_messages = {
         "title": "THANKFUL FOR YOU",
         "message": (
             "Happy November 23rd, my everything!\n\n"
-            "Today is extra special—it's our anniversary!  🎉\n"
+            "Today is extra special—it's our anniversary!   🎉\n"
             "November 23, 2023, the day we became us.\n\n"
             "I am endlessly thankful for you,\n"
             "for your love, your patience, your beautiful heart.\n\n"
@@ -322,25 +325,91 @@ monthly_23rd_messages = {
             "Thank you for making this year magical,\n"
             "and for being my home during the holidays.\n\n"
             "Here's to ending this year with you,\n"
-            "and starting the next one the same way 🎁❄️"
+            "and starting the next one the same way"
         )
+    }
+}
+
+# ================= GAME ACHIEVEMENTS =================
+achievements = {
+    1: {
+        "title": "First Flight! ",
+        "message": (
+            "You got your first point!\n\n"
+            "Just like how we started—\n"
+            "one small step that led to something beautiful.\n\n"
+            "I'm proud of you, baby!  Keep going!  "
+        ),
+        "emoji": "🎈"
+    },
+    5: {
+        "title": "Rising Star! ",
+        "message": (
+            "5 points!  You're getting good at this!\n\n"
+            "Just like how you've gotten better\n"
+            "at stealing my heart every single day.\n\n"
+            "You're doing amazing, my love! Keep it up!  "
+        ),
+        "emoji": "✨"
+    },
+    10: {
+        "title": "Perfect Ten!",
+        "message": (
+            "10 points! You're a natural!\n\n"
+            "You know what else is a perfect 10?\n"
+            "You.  Every single day.\n\n"
+            "I'm so lucky to have you! hehe"
+        ),
+        "emoji": "🌟"
+    },
+    15: {
+        "title": "CHAMPION OF MY HEART!",
+        "message": (
+            "15 POINTS! You're incredible!\n\n"
+            "You've mastered this game,\n"
+            "just like you've mastered making me\n"
+            "fall in love with you over and over.\n\n"
+            "You are my champion, my everything,\n"
+            "my greatest achievement in life.\n\n"
+            "I love you more than all the high scores\n"
+            "in the world combined!"
+        ),
+        "emoji": "🏆"
     }
 }
 
 clicked_moods = set()
 all_moods = set(mood_messages.keys())
 
-# ================= HIGH SCORE =================
+# ================= HIGH SCORE & ACHIEVEMENTS =================
 HIGHSCORE_FILE = "highscore.txt"
+ACHIEVEMENTS_FILE = "achievements. json"
 
 if os.path.exists(HIGHSCORE_FILE):
     with open(HIGHSCORE_FILE, "r") as f:
         try:
             high_score = int(f.read())
-        except: 
+        except:  
             high_score = 0
 else:
     high_score = 0
+
+# Load unlocked achievements
+if os.path.exists(ACHIEVEMENTS_FILE):
+    with open(ACHIEVEMENTS_FILE, "r") as f:
+        try: 
+            unlocked_achievements = json. load(f)
+        except:
+            unlocked_achievements = []
+else:
+    unlocked_achievements = []
+
+def save_achievement(score):
+    """Save newly unlocked achievement"""
+    if score not in unlocked_achievements and score in achievements:
+        unlocked_achievements.append(score)
+        with open(ACHIEVEMENTS_FILE, "w") as f:
+            json.dump(unlocked_achievements, f)
 
 # ================= FUNCTIONS =================
 def show_message(mood):
@@ -390,11 +459,89 @@ def show_morning():
 
 def show_night():
     # Pick a random night message each time
-    daynight_label.config(text=random.choice(night_messages))
+    daynight_label.config(text=random. choice(night_messages))
+
+def show_achievements():
+    """Show achievements window"""
+    ach_window = tk.Toplevel()
+    ach_window.title("Achievements 🏆")
+    ach_window.geometry("400x500")
+    ach_window.resizable(False, False)
+    ach_window.configure(bg="#fff0f5")
+    
+    # Title
+    tk.Label(
+        ach_window,
+        text="🏆 Your Achievements 🏆",
+        font=("Helvetica", 16, "bold"),
+        bg="#fff0f5",
+        fg="#b30059"
+    ).pack(pady=15)
+    
+    # Create scrollable frame
+    canvas = tk.Canvas(ach_window, bg="#fff0f5", highlightthickness=0)
+    scrollbar = tk.Scrollbar(ach_window, orient="vertical", command=canvas.yview)
+    scrollable = tk.Frame(canvas, bg="#fff0f5")
+    
+    scrollable.bind(
+        "<Configure>",
+        lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+    )
+    
+    canvas.create_window((0, 0), window=scrollable, anchor="nw")
+    canvas.configure(yscrollcommand=scrollbar.set)
+    
+    canvas.pack(side="left", fill="both", expand=True, padx=10)
+    scrollbar.pack(side="right", fill="y")
+    
+    # Display each achievement
+    for score in sorted(achievements.keys()):
+        ach = achievements[score]
+        is_unlocked = score in unlocked_achievements
+        
+        # Achievement frame
+        frame = tk.Frame(
+            scrollable,
+            bg="#ffb3d9" if is_unlocked else "#e0e0e0",
+            relief="raised",
+            borderwidth=2
+        )
+        frame.pack(pady=10, padx=10, fill="x")
+        
+        # Emoji and title
+        tk.Label(
+            frame,
+            text=f"{ach['emoji']} {ach['title']}" if is_unlocked else f"🔒 Score {score} to unlock",
+            font=("Helvetica", 12, "bold"),
+            bg="#ffb3d9" if is_unlocked else "#e0e0e0",
+            fg="#b30059" if is_unlocked else "#808080"
+        ).pack(pady=5)
+        
+        # Message (only if unlocked)
+        if is_unlocked:
+            tk.Label(
+                frame,
+                text=ach['message'],
+                font=("Helvetica", 9),
+                bg="#ffb3d9",
+                fg="#4d004d",
+                wraplength=350,
+                justify="center"
+            ).pack(pady=5, padx=10)
+    
+    # Close button
+    tk.Button(
+        ach_window,
+        text="Close",
+        font=("Helvetica", 11, "bold"),
+        bg="#ff66a3",
+        fg="white",
+        command=ach_window.destroy
+    ).pack(pady=10)
 
 # ================= GUI SETUP =================
 window = tk.Tk()
-window.title("For You 💕")
+window.title("For Bianca Nichole B. Oxcello")
 window.geometry("500x700")
 window.resizable(True, True)
 window.configure(bg="#fff0f5")
@@ -406,7 +553,7 @@ scrollable_frame = tk.Frame(main_canvas, bg="#fff0f5")
 
 scrollable_frame.bind(
     "<Configure>",
-    lambda e: main_canvas.configure(scrollregion=main_canvas.bbox("all"))
+    lambda e: main_canvas. configure(scrollregion=main_canvas.bbox("all"))
 )
 
 main_canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
@@ -441,7 +588,7 @@ def animate_hearts():
     if random.random() < 0.25:
         create_heart()
 
-    for heart in hearts[: ]:
+    for heart in hearts[:  ]:
         canvas.move(heart, 0, -2)
         coords = canvas.coords(heart)
         if coords and coords[1] < -20:
@@ -544,7 +691,7 @@ message_label = tk.Label(
 message_label.pack(pady=10)
 
 # ================= MOOD BUTTONS =================
-for mood in mood_messages: 
+for mood in mood_messages:  
     tk.Button(
         frame,
         text=mood,
@@ -570,7 +717,7 @@ secret_label.pack(pady=15)
 # ================= MINI-GAME =================
 def open_game():
     game = tk.Toplevel()
-    game.title("Murag Flappy Bird but.. ...")
+    game.title("Murag Flappy Bird but..  ...")
     game.geometry("400x500")
     game.resizable(False, False)
 
@@ -581,14 +728,75 @@ def open_game():
     velocity = 0
     pipes = []
     game_running = True
+    shown_achievements = set()  # Track which achievements we've shown this game
 
     player = game_canvas.create_text(80, 225, text="💗", font=("Arial", 28))
 
     score_text = game_canvas.create_text(
         200, 30,
-        text=f"Score:   0  |  High:   {high_score}",
+        text=f"Score:    0  |  High:    {high_score}",
         font=("Arial", 12, "bold")
     )
+
+    def show_achievement_popup(score):
+        """Show achievement popup during game"""
+        if score in achievements and score not in shown_achievements: 
+            shown_achievements.add(score)
+            save_achievement(score)
+            
+            ach = achievements[score]
+            
+            # Create popup window
+            popup = tk.Toplevel(game)
+            popup.title("Achievement Unlocked!")
+            popup.geometry("350x300")
+            popup.resizable(False, False)
+            popup.configure(bg="#fff0f5")
+            popup.transient(game)
+            popup.grab_set()
+            
+            # Achievement content
+            tk.Label(
+                popup,
+                text="🎉 ACHIEVEMENT UNLOCKED! 🎉",
+                font=("Helvetica", 14, "bold"),
+                bg="#fff0f5",
+                fg="#b30059"
+            ).pack(pady=15)
+            
+            tk.Label(
+                popup,
+                text=ach['emoji'],
+                font=("Arial", 48),
+                bg="#fff0f5"
+            ).pack(pady=10)
+            
+            tk.Label(
+                popup,
+                text=ach['title'],
+                font=("Helvetica", 13, "bold"),
+                bg="#fff0f5",
+                fg="#b30059"
+            ).pack(pady=5)
+            
+            tk.Label(
+                popup,
+                text=ach['message'],
+                font=("Helvetica", 10),
+                bg="#fff0f5",
+                fg="#4d004d",
+                wraplength=300,
+                justify="center"
+            ).pack(pady=10, padx=20)
+            
+            tk.Button(
+                popup,
+                text="Continue Playing!  💕",
+                font=("Helvetica", 11, "bold"),
+                bg="#ff66a3",
+                fg="white",
+                command=popup.destroy
+            ).pack(pady=15)
 
     def flap(event=None):
         nonlocal velocity
@@ -612,7 +820,7 @@ def open_game():
             top_coords = game_canvas.bbox(top)
             bottom_coords = game_canvas.bbox(bottom)
             
-            if not top_coords or not bottom_coords: 
+            if not top_coords or not bottom_coords:  
                 continue
                 
             tx1, ty1, tx2, ty2 = top_coords
@@ -630,7 +838,7 @@ def open_game():
         nonlocal velocity, score, game_running
         global high_score
 
-        if not game_running: 
+        if not game_running:  
             return
 
         # Much gentler gravity
@@ -638,7 +846,7 @@ def open_game():
         game_canvas.move(player, 0, velocity)
 
         # Move pipes slower
-        for i, pipe in enumerate(pipes[: ]):
+        for i, pipe in enumerate(pipes[:  ]):
             top, bottom, scored = pipe
             game_canvas.move(top, -3, 0)
             game_canvas.move(bottom, -3, 0)
@@ -649,8 +857,11 @@ def open_game():
                 score += 1
                 game_canvas.itemconfig(
                     score_text,
-                    text=f"Score:  {score}  |  High:  {high_score}"
+                    text=f"Score:   {score}  |  High:   {high_score}"
                 )
+                
+                # Check for achievement
+                show_achievement_popup(score)
 
             # Remove pipes that are off screen
             if game_canvas.coords(top)[2] < 0:
@@ -711,19 +922,22 @@ def open_game():
     # Instructions
     game_canvas.create_text(
         200, 425,
-        text="Press SPACE or CLICK! ",
+        text="Press SPACE or CLICK!  ",
         font=("Arial", 10),
         fill="#4d004d"
     )
 
-    game.bind("<space>", flap)
+    game. bind("<space>", flap)
     game.bind("<Button-1>", flap)
 
     move()
 
-# ================= BUTTON =================
+# ================= GAME BUTTONS =================
+game_button_frame = tk.Frame(frame, bg="#fff0f5")
+game_button_frame.pack(pady=10)
+
 tk.Button(
-    frame,
+    game_button_frame,
     text="🎮 Play when you're bored",
     font=("Helvetica", 12, "bold"),
     bg="#ff66a3",
@@ -731,7 +945,18 @@ tk.Button(
     padx=20,
     pady=10,
     command=lambda: open_game()
-).pack(pady=10)
+).pack(side="left", padx=5)
+
+tk.Button(
+    game_button_frame,
+    text="🏆 Achievements",
+    font=("Helvetica", 12, "bold"),
+    bg="#9966ff",
+    fg="white",
+    padx=20,
+    pady=10,
+    command=show_achievements
+).pack(side="right", padx=5)
 
 # ================= FOOTER =================
 tk.Label(
