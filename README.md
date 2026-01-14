@@ -15,7 +15,7 @@ This enhanced version features:
 
 1. **Install Python 3.7+** (if not already installed)
 2. **Run the app**: `python EverydayMood.py`
-3. **Login** with password: `112323`
+3. **Login** with password:
 4. **Explore** the 5 tabs and discover all features!
 
 ## 📖 Documentation
@@ -65,7 +65,7 @@ This enhanced version features:
 
 ## 🎨 Made With Love
 
-Created with 💖 for Bianca Nichole B. Oxcello
+Created with 💖 
 
 ---
 
