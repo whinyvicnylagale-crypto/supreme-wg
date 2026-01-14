@@ -325,105 +325,13 @@ class SettingsManager:
         self.save_settings()
 
 
-# ================= PASSWORD PROTECTION =================
-def check_password():
-    """Check if the entered password is correct"""
-    entered = password_entry.get()
-    if entered == "112323":  
-        login_window.destroy()
-        open_main_app()
-    else:
-        error_label.config(text=" Wrong password!    Try again, baby :  )")
-        password_entry.delete(0, tk.END)
 
-def on_enter_key(event):
-    """Allow Enter key to submit password"""
-    check_password()
 
-# Create login window
-login_window = tk.Tk()
-login_window.title("For Bianca Nichole B. Oxcello ")
-login_window.geometry("450x350")
-login_window.resizable(False, False)
-login_window.configure(bg=COLORS['bg_main'])
+# ================= DATA STRUCTURES =================
+START_DATE = date(2023, 11, 23)
 
-# Center the window
-login_window.eval('tk::PlaceWindow . center')
 
-# Login content
-tk.Label(
-    login_window,
-    text="💖",
-    font=("Arial", 48),
-    bg=COLORS['bg_main']
-).pack(pady=20)
-
-tk.Label(
-    login_window,
-    text="Enter Password",
-    font=FONTS['title'],
-    bg=COLORS['bg_main'],
-    fg=COLORS['accent']
-).pack(pady=5)
-
-tk.Label(
-    login_window,
-    text="(Hint: Our special date! )",
-    font=FONTS['small'],
-    bg=COLORS['bg_main'],
-    fg=COLORS['text_light']
-).pack(pady=2)
-
-# Password entry
-password_entry = tk.Entry(
-    login_window,
-    font=("Helvetica", 20),
-    justify="center",
-    width=12,
-    show="•"  # Hides the password with dots
-)
-password_entry.pack(pady=15)
-password_entry.focus()
-
-# Error label
-error_label = tk.Label(
-    login_window,
-    text="",
-    font=("Helvetica", 10),
-    bg=COLORS['bg_main'],
-    fg="#cc0000"
-)
-error_label.pack(pady=5)
-
-# Submit button - BIGGER AND EASIER TO CLICK
-submit_button = tk.Button(
-    login_window,
-    text=" Enter ",
-    font=FONTS['heading'],
-    bg=COLORS['primary'],
-    fg=COLORS['white'],
-    width=20,
-    height=2,
-    cursor="hand2",
-    activebackground="#ff4da6",
-    relief="raised",
-    borderwidth=3,
-    command=check_password
-)
-submit_button.pack(pady=15)
-
-# Bind Enter key to submit
-password_entry.bind("<Return>", on_enter_key)
-
-# ================= MAIN APP FUNCTION =================
-def open_main_app():
-    # ================= DATES =================
-    START_DATE = date(2023, 11, 23)
-    today = date.today()
-    days_together = (today - START_DATE).days
-
-    # ================= DAILY MESSAGES =================
-    daily_messages = [
+daily_messages = [
         "I hope today treats you gently ",
         "No matter what today brings, I'm here for you ",
         "You are loved more than you realize ",
@@ -453,10 +361,8 @@ def open_main_app():
         "I love you to the moon and back ",
     ]
 
-    daily_message = daily_messages[today.toordinal() % len(daily_messages)]
 
-    # ================= DAY / NIGHT MESSAGES =================
-    morning_messages = [
+morning_messages = [
         "Good morning, my baby!       I hope today is kind to you ",
         "Rise and shine, beautiful! Today is your day ",
         "Good morning!      You're the first thing on my mind ",
@@ -474,7 +380,8 @@ def open_main_app():
         "Hey baby!  Today will be wonderful because you're in it "
     ]
 
-    night_messages = [
+
+night_messages = [
         "Good night, my darlingg.       Rest well.       I'm so proud of you ",
         "Sweet dreams, beautiful.    You deserve peaceful sleep ",
         "Good night!     Tomorrow is a fresh start ",
@@ -493,8 +400,8 @@ def open_main_app():
         "Good night!  I love you more than the stars in the sky "
     ]
 
-    # ================= MOOD MESSAGES =================
-    mood_messages = {
+
+mood_messages = {
         "Happy 😊": [
             "Seeing you happy makes my whole world brighter ",
             "Your happiness is contagious!       Keep shining ",
@@ -581,8 +488,8 @@ def open_main_app():
         ]
     }
 
-    # ================= MONTHLY 23RD MESSAGES =================
-    monthly_23rd_messages = {
+
+monthly_23rd_messages = {
         1: {  # January
             "title": "NEW YEAR, SAME LOVE",
             "message":      (
@@ -739,8 +646,8 @@ def open_main_app():
         }
     }
 
-    # ================= GAME ACHIEVEMENTS =================
-    achievements = {
+
+achievements = {
         1: {
             "title": "First Flight!    ",
             "message": (
@@ -787,69 +694,325 @@ def open_main_app():
         }
     }
 
+
+# ================= PASSWORD PROTECTION =================
+def check_password():
+    """Check if the entered password is correct"""
+    entered = password_entry.get()
+    if entered == "112323":  
+        login_window.destroy()
+        open_main_app()
+    else:
+        error_label.config(text=" Wrong password!    Try again, baby :  )")
+        password_entry.delete(0, tk.END)
+
+def on_enter_key(event):
+    """Allow Enter key to submit password"""
+    check_password()
+
+# Create login window
+login_window = tk.  Tk()
+login_window.title("For Bianca Nichole B.  Oxcello ")
+login_window.geometry("450x350")
+login_window.resizable(False, False)
+login_window.configure(bg="#fff0f5")
+
+# Center the window
+login_window.eval('tk::PlaceWindow .   center')
+
+# Login content
+tk.Label(
+    login_window,
+    text="💖",
+    font=("Arial", 48),
+    bg="#fff0f5"
+).pack(pady=20)
+
+tk.Label(
+    login_window,
+    text="Enter Password",
+    font=("Helvetica", 16, "bold"),
+    bg="#fff0f5",
+    fg="#b30059"
+).pack(pady=5)
+
+tk.Label(
+    login_window,
+    text="(Hint: Our special date! )",
+    font=("Helvetica", 9, "italic"),
+    bg="#fff0f5",
+    fg="#800040"
+).pack(pady=2)
+
+# Password entry
+password_entry = tk.Entry(
+    login_window,
+    font=("Helvetica", 20),
+    justify="center",
+    width=12,
+    show="•"  # Hides the password with dots
+)
+password_entry.pack(pady=15)
+password_entry.focus()
+
+# Error label
+error_label = tk.  Label(
+    login_window,
+    text="",
+    font=("Helvetica", 10),
+    bg="#fff0f5",
+    fg="#cc0000"
+)
+error_label.pack(pady=5)
+
+# Submit button - BIGGER AND EASIER TO CLICK
+submit_button = tk.Button(
+    login_window,
+    text=" Enter ",
+    font=("Helvetica", 14, "bold"),
+    bg="#ff66a3",
+    fg="white",
+    width=20,
+    height=2,
+    cursor="hand2",
+    activebackground="#ff4da6",
+    relief="raised",
+    borderwidth=3,
+    command=check_password
+)
+submit_button.pack(pady=15)
+
+# Bind Enter key to submit
+password_entry.bind("<Return>", on_enter_key)
+
+
+# ================= MAIN APP FUNCTION =================
+def open_main_app():
+    """Main application with modern tab-based UI"""
+    print("Opening main app with tabs...")
+    
+    today = date.today()
+    days_together = (today - START_DATE).days
+    
+    # Initialize managers
+    journal_manager = JournalManager()
+    settings_manager = SettingsManager()
+    
+    # ================= MAIN WINDOW =================
+    window = tk.Tk()
+    window.title("For Bianca Nichole B. Oxcello 💖")
+    window.geometry("650x800")
+    window.resizable(True, True)
+    window.configure(bg=COLORS['bg_main'])
+    
+    # Create notebook for tabs
+    notebook = ttk.Notebook(window)
+    notebook.pack(fill='both', expand=True, padx=10, pady=10)
+    
+    # Configure tab style
+    style = ttk.Style()
+    style.theme_use('default')
+    style.configure('TNotebook', background=COLORS['bg_main'])
+    style.configure('TNotebook.Tab', padding=[15, 8], font=FONTS['body'])
+    style.map('TNotebook.Tab',
+        background=[('selected', COLORS['primary'])],
+        foreground=[('selected', COLORS['white'])])
+    
+    # ================= CREATE TABS =================
+    # HOME TAB
+    home_tab = tk.Frame(notebook, bg=COLORS['bg_main'])
+    notebook.add(home_tab, text='🏠 Home')
+    
+    # TIMELINE TAB
+    timeline_tab = tk.Frame(notebook, bg=COLORS['bg_main'])
+    notebook.add(timeline_tab, text='📅 Timeline')
+    
+    # GAMES TAB
+    games_tab = tk.Frame(notebook, bg=COLORS['bg_main'])
+    notebook.add(games_tab, text='🎮 Games')
+    
+    # JOURNAL TAB (NEW)
+    journal_tab = tk.Frame(notebook, bg=COLORS['bg_main'])
+    notebook.add(journal_tab, text='💭 Journal')
+    
+    # SETTINGS TAB
+    settings_tab = tk.Frame(notebook, bg=COLORS['bg_main'])
+    notebook.add(settings_tab, text='⚙️ Settings')
+    
+    print("Tabs created successfully")
+    
+    # ================= HOME TAB CONTENT =================
+    create_home_tab(home_tab, days_together, daily_messages, morning_messages, 
+                    night_messages, mood_messages, monthly_23rd_messages)
+    
+    # ================= TIMELINE TAB CONTENT =================
+    create_timeline_tab(timeline_tab, days_together)
+    
+    # ================= GAMES TAB CONTENT =================
+    create_games_tab(games_tab, window)
+    
+    # ================= JOURNAL TAB CONTENT =================
+    create_journal_tab(journal_tab, journal_manager, days_together, mood_messages)
+    
+    # ================= SETTINGS TAB CONTENT =================
+    create_settings_tab(settings_tab, settings_manager, journal_manager.email_notifier)
+    
+    window.mainloop()
+
+
+# ================= TAB CREATION FUNCTIONS =================
+
+def create_home_tab(parent, days_together, daily_messages, morning_messages, 
+                    night_messages, mood_messages, monthly_23rd_messages):
+    """Create the home tab with mood tracker and daily messages"""
+    today = date.today()
+    daily_message = daily_messages[today.toordinal() % len(daily_messages)]
+    
+    # Create scrollable frame
+    canvas = tk.Canvas(parent, bg=COLORS['bg_main'], highlightthickness=0)
+    scrollbar = tk.Scrollbar(parent, orient="vertical", command=canvas.yview)
+    scrollable_frame = tk.Frame(canvas, bg=COLORS['bg_main'])
+    
+    scrollable_frame.bind(
+        "<Configure>",
+        lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+    )
+    
+    canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+    canvas.configure(yscrollcommand=scrollbar.set)
+    
+    canvas.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
+    
+    # Title
+    tk.Label(
+        scrollable_frame,
+        text="How Are You Feeling Today? 💖",
+        font=FONTS['title'],
+        bg=COLORS['bg_main'],
+        fg=COLORS['accent']
+    ).pack(pady=15)
+    
+    # Days together
+    days_label = tk.Label(
+        scrollable_frame,
+        text=f"💕 {days_together} days together since Nov 23, 2023 💕",
+        font=FONTS['heading'],
+        bg=COLORS['bg_main'],
+        fg=COLORS['text_light']
+    )
+    days_label.pack(pady=10)
+    
+    # Special day indicator
+    if today.day == 23:
+        tk.Label(
+            scrollable_frame,
+            text="✨ Today is our special day! ✨",
+            font=FONTS['body'],
+            bg=COLORS['pink_light'],
+            fg=COLORS['accent'],
+            padx=15,
+            pady=8
+        ).pack(pady=5)
+    
+    # Daily message
+    tk.Label(
+        scrollable_frame,
+        text=f"Today's message:\n{daily_message}",
+        font=FONTS['body'],
+        wraplength=500,
+        justify="center",
+        bg=COLORS['white'],
+        fg=COLORS['text_dark'],
+        padx=20,
+        pady=15
+    ).pack(pady=10, padx=20, fill='x')
+    
+    # Good morning/night section
+    daynight_label = tk.Label(
+        scrollable_frame,
+        text="Tap below for a message 💗",
+        font=FONTS['body'],
+        wraplength=400,
+        justify="center",
+        bg=COLORS['bg_main'],
+        fg=COLORS['text_dark']
+    )
+    daynight_label.pack(pady=10)
+    
+    def show_morning():
+        daynight_label.config(text=random.choice(morning_messages))
+    
+    def show_night():
+        daynight_label.config(text=random.choice(night_messages))
+    
+    btn_frame = tk.Frame(scrollable_frame, bg=COLORS['bg_main'])
+    btn_frame.pack(pady=8)
+    
+    tk.Button(
+        btn_frame,
+        text="☀️ Good Morning",
+        font=FONTS['button'],
+        bg=COLORS['pink_light'],
+        fg=COLORS['text_dark'],
+        width=16,
+        height=2,
+        command=show_morning
+    ).pack(side="left", padx=5)
+    
+    tk.Button(
+        btn_frame,
+        text="🌙 Good Night",
+        font=FONTS['button'],
+        bg=COLORS['purple_light'],
+        fg=COLORS['text_dark'],
+        width=16,
+        height=2,
+        command=show_night
+    ).pack(side="right", padx=5)
+    
+    # Mood display
+    message_label = tk.Label(
+        scrollable_frame,
+        text="Choose a mood and I'll be right here 💕",
+        font=FONTS['body'],
+        wraplength=500,
+        justify="center",
+        bg=COLORS['white'],
+        fg=COLORS['text_dark'],
+        padx=20,
+        pady=15
+    )
+    message_label.pack(pady=15, padx=20, fill='x')
+    
+    # Track clicked moods
     clicked_moods = set()
     all_moods = set(mood_messages.keys())
-
-    # ================= HIGH SCORE & ACHIEVEMENTS =================
-    HIGHSCORE_FILE = "highscore.txt"
-    ACHIEVEMENTS_FILE = "achievements.json"
-
-    if os.path.exists(HIGHSCORE_FILE):
-        with open(HIGHSCORE_FILE, "r") as f:
-            try:
-                high_score = int(f.read())
-            except:     
-                high_score = 0
-    else:
-        high_score = 0
-
-    # Load unlocked achievements
-    if os.path.exists(ACHIEVEMENTS_FILE):
-        with open(ACHIEVEMENTS_FILE, "r") as f:
-            try:  
-                unlocked_achievements = json.load(f)
-            except:
-                unlocked_achievements = []
-    else:
-        unlocked_achievements = []
-
-    def save_achievement(score):
-        """Save newly unlocked achievement"""
-        if score not in unlocked_achievements and score in achievements:
-            unlocked_achievements.append(score)
-            with open(ACHIEVEMENTS_FILE, "w") as f:
-                json.dump(unlocked_achievements, f)
-
-    # ================= FUNCTIONS =================
+    
     def show_message(mood):
         clicked_moods.add(mood)
-        # Pick a random message from the list for that mood
         message_label.config(text=random.choice(mood_messages[mood]))
-
+        
         if clicked_moods == all_moods:
-            # Check if today is the 23rd
             if today.day == 23:
                 unlock_special_23rd_message()
             else:
                 unlock_secret()
-
+    
     def unlock_secret():
         secret_label.config(
             text=(
-                " Secret unlocked! \n\n"
+                "🎁 Secret unlocked! 💖\n\n"
                 "Every day with you is my favorite.\n"
                 "I'd choose you in every lifetime no matter what your mood is."
             ),
-            fg="#b30059"
+            fg=COLORS['accent']
         )
-
+    
     def unlock_special_23rd_message():
-        """Special message that only unlocks on the 23rd of any month"""
         current_month = today.month
         months_together = ((today.year - START_DATE.year) * 12 + 
-                           (today.month - START_DATE.month))
-        
-        # Get the message for the current month
+                          (today.month - START_DATE.month))
         month_data = monthly_23rd_messages[current_month]
         
         secret_label.config(
@@ -858,300 +1021,234 @@ def open_main_app():
                 f"📅 Month {months_together} Together 📅\n\n"
                 f"{month_data['message']}"
             ),
-            fg="#b30059",
-            font=("Helvetica", 10, "bold")
+            fg=COLORS['accent'],
+            font=FONTS['body']
         )
-
-    def show_morning():
-        # Pick a random morning message each time
-        daynight_label.config(text=random.choice(morning_messages))
-
-    def show_night():
-        # Pick a random night message each time
-        daynight_label.config(text=random.  choice(night_messages))
-
-    def show_achievements():
-        """Show achievements window"""
-        ach_window = tk.Toplevel()
-        ach_window.title("Achievements 🏆")
-        ach_window.geometry("400x500")
-        ach_window.resizable(False, False)
-        ach_window.configure(bg="#fff0f5")
-        
-        # Title
-        tk.Label(
-            ach_window,
-            text=" Your Achievements ",
-            font=("Helvetica", 16, "bold"),
-            bg="#fff0f5",
-            fg="#b30059"
-        ).pack(pady=15)
-        
-        # Create scrollable frame
-        ach_canvas = tk.Canvas(ach_window, bg="#fff0f5", highlightthickness=0)
-        ach_scrollbar = tk.Scrollbar(ach_window, orient="vertical", command=ach_canvas.yview)
-        scrollable = tk.Frame(ach_canvas, bg="#fff0f5")
-        
-        scrollable.bind(
-            "<Configure>",
-            lambda e: ach_canvas.configure(scrollregion=ach_canvas.bbox("all"))
-        )
-        
-        ach_canvas.create_window((0, 0), window=scrollable, anchor="nw")
-        ach_canvas.configure(yscrollcommand=ach_scrollbar.set)
-        
-        ach_canvas.pack(side="left", fill="both", expand=True, padx=10)
-        ach_scrollbar.  pack(side="right", fill="y")
-        
-        # Display each achievement
-        for score in sorted(achievements.keys()):
-            ach = achievements[score]
-            is_unlocked = score in unlocked_achievements
-            
-            # Achievement frame
-            ach_frame = tk.Frame(
-                scrollable,
-                bg="#ffb3d9" if is_unlocked else "#e0e0e0",
-                relief="raised",
-                borderwidth=2
-            )
-            ach_frame.pack(pady=10, padx=10, fill="x")
-            
-            # Emoji and title
-            tk.Label(
-                ach_frame,
-                text=f"{ach['emoji']} {ach['title']}" if is_unlocked else f"🔒 Score {score} to unlock",
-                font=("Helvetica", 12, "bold"),
-                bg="#ffb3d9" if is_unlocked else "#e0e0e0",
-                fg="#b30059" if is_unlocked else "#808080"
-            ).pack(pady=5)
-            
-            # Message (only if unlocked)
-            if is_unlocked:
-                tk.Label(
-                    ach_frame,
-                    text=ach['message'],
-                    font=("Helvetica", 9),
-                    bg="#ffb3d9",
-                    fg="#4d004d",
-                    wraplength=350,
-                    justify="center"
-                ).pack(pady=5, padx=10)
-        
-        # Close button
-        tk.  Button(
-            ach_window,
-            text="Close",
-            font=("Helvetica", 11, "bold"),
-            bg="#ff66a3",
-            fg="white",
-            command=ach_window.destroy
-        ).pack(pady=10)
-
-    # ================= GUI SETUP =================
-    window = tk.Tk()
-    window.title("For Bianca Nichole B. Oxcello")
-    window.geometry("500x700")
-    window.resizable(True, True)
-    window.configure(bg="#fff0f5")
-
-    # Create main canvas with scrollbar
-    main_canvas = tk.Canvas(window, bg="#fff0f5", highlightthickness=0)
-    main_scrollbar = tk. Scrollbar(window, orient="vertical", command=main_canvas. yview)
-    scrollable_frame = tk.Frame(main_canvas, bg="#fff0f5")
-
-    scrollable_frame.bind(
-        "<Configure>",
-        lambda e: main_canvas.configure(scrollregion=main_canvas.bbox("all"))
-    )
-
-    main_canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
-    main_canvas.configure(yscrollcommand=main_scrollbar.set)
-
-    main_canvas.pack(side="left", fill="both", expand=True)
-    main_scrollbar.pack(side="right", fill="y")
-
-    # Bind mousewheel for scrolling
-    def _on_mousewheel(event):
-        main_canvas.yview_scroll(int(-1*(event.delta/120)), "units")
-
-    main_canvas.bind_all("<MouseWheel>", _on_mousewheel)
-
-    # Background canvas for hearts (taller to fit all content)
-    canvas = tk.Canvas(scrollable_frame, width=500, height=1000, bg="#fff0f5", highlightthickness=0)
-    canvas.pack()
-
-    frame = tk.Frame(canvas, bg="#fff0f5")
-    frame.place(relx=0.5, rely=0.02, anchor="n")
-
-    # ================= HEART ANIMATION =================
-    hearts = []
-
-    def create_heart():
-        x = random.randint(20, 460)
-        y = 980
-        heart = canvas.create_text(x, y, text="💖", font=("Arial", 18))
-        hearts.append(heart)
-
-    def animate_hearts():
-        if random.random() < 0.25:
-            create_heart()
-
-        for heart in hearts[:   ]:
-            canvas.move(heart, 0, -2)
-            coords = canvas.coords(heart)
-            if coords and coords[1] < -20:
-                canvas.delete(heart)
-                hearts.remove(heart)
-
-        window.after(50, animate_hearts)
-
-    # ================= TITLE =================
-    tk.Label(
-        frame,
-        text="How Are You Feeling Today?  ",
-        font=("Helvetica", 16, "bold"),
-        bg="#fff0f5",
-        fg="#b30059"
-    ).pack(pady=5)
-
-    # ================= DAYS TOGETHER =================
-    days_label = tk.Label(
-        frame,
-        text=f" {days_together} days together since Nov 23, 2023",
-        font=("Helvetica", 11, "bold"),
-        bg="#fff0f5",
-        fg="#800040"
-    )
-    days_label.pack(pady=5)
-
-    # Add special indicator if today is the 23rd
-    if today.day == 23:
-        tk.Label(
-            frame,
-            text="✨ Today is our special day! ✨",
-            font=("Helvetica", 10, "bold"),
-            bg="#ffb3d9",
-            fg="#b30059",
-            padx=10,
-            pady=5
-        ).pack(pady=5)
-
-    # ================= DAILY MESSAGE =================
-    tk.Label(
-        frame,
-        text=f"Today's message:\n{daily_message}",
-        font=("Helvetica", 11),
-        wraplength=420,
-        justify="center",
-        bg="white",
-        fg="#4d004d",
-        padx=15,
-        pady=15
-    ).pack(pady=8)
-
-    # ================= GOOD MORNING / NIGHT =================
-    daynight_label = tk.Label(
-        frame,
-        text="Tap below for a message ",
-        font=("Helvetica", 11, "italic"),
-        wraplength=400,
-        justify="center",
-        bg="#fff0f5",
-        fg="#4d004d"
-    )
-    daynight_label.pack(pady=6)
-
-    switch_frame = tk.Frame(frame, bg="#fff0f5")
-    switch_frame.pack(pady=4)
-
-    tk.Button(
-        switch_frame,
-        text="☀️ Good Morning",
-        font=("Helvetica", 10, "bold"),
-        bg="#ffb3d9",
-        fg="#4d004d",
-        width=16,
-        command=show_morning
-    ).pack(side="left", padx=5)
-
-    tk.Button(
-        switch_frame,
-        text="🌙 Good Night",
-        font=("Helvetica", 10, "bold"),
-        bg="#d9b3ff",
-        fg="#4d004d",
-        width=16,
-        command=show_night
-    ).pack(side="right", padx=5)
-
-    # ================= MOOD DISPLAY =================
-    message_label = tk.Label(
-        frame,
-        text="Choose a mood and I'll be right here ",
-        font=("Helvetica", 12),
-        wraplength=420,
-        justify="center",
-        bg="white",
-        fg="#4d004d",
-        padx=20,
-        pady=15
-    )
-    message_label.pack(pady=10)
-
-    # ================= MOOD BUTTONS =================
-    for mood in mood_messages:   
+    
+    # Mood buttons
+    for mood in mood_messages.keys():
         tk.Button(
-            frame,
+            scrollable_frame,
             text=mood,
-            font=("Helvetica", 11, "bold"),
-            width=26,
-            bg="#ff80bf",
-            fg="white",
+            font=FONTS['button'],
+            width=30,
+            height=2,
+            bg=COLORS['primary'],
+            fg=COLORS['white'],
             activebackground="#ff4da6",
             command=lambda m=mood: show_message(m)
-        ).pack(pady=4)
-
-    # ================= SECRET MESSAGE =================
+        ).pack(pady=5)
+    
+    # Secret message label
     secret_label = tk.Label(
-        frame,
+        scrollable_frame,
         text="",
-        font=("Helvetica", 11, "bold"),
-        wraplength=440,
+        font=FONTS['body'],
+        wraplength=500,
         justify="center",
-        bg="#fff0f5"
+        bg=COLORS['bg_main']
     )
-    secret_label.pack(pady=15)
+    secret_label.pack(pady=20)
 
-    # ================= MINI-GAME =================
+
+def create_timeline_tab(parent, days_together):
+    """Create timeline tab with calendar view"""
+    today = date.today()
+    
+    # Main container
+    container = tk.Frame(parent, bg=COLORS['bg_main'])
+    container.pack(fill='both', expand=True, padx=20, pady=20)
+    
+    # Title
+    tk.Label(
+        container,
+        text="📅 Our Timeline Together 📅",
+        font=FONTS['title'],
+        bg=COLORS['bg_main'],
+        fg=COLORS['accent']
+    ).pack(pady=15)
+    
+    # Days together - prominent display
+    tk.Label(
+        container,
+        text=f"{days_together}",
+        font=('Helvetica', 48, 'bold'),
+        bg=COLORS['white'],
+        fg=COLORS['primary']
+    ).pack(pady=10)
+    
+    tk.Label(
+        container,
+        text="Days Together Since November 23, 2023",
+        font=FONTS['heading'],
+        bg=COLORS['white'],
+        fg=COLORS['text_light']
+    ).pack(pady=5)
+    
+    # Milestones
+    milestones_frame = tk.Frame(container, bg=COLORS['bg_light'], relief='raised', borderwidth=2)
+    milestones_frame.pack(pady=20, padx=10, fill='x')
+    
+    tk.Label(
+        milestones_frame,
+        text="🎉 Milestones 🎉",
+        font=FONTS['heading'],
+        bg=COLORS['bg_light'],
+        fg=COLORS['accent']
+    ).pack(pady=10)
+    
+    milestones = [
+        (100, "100 Days"),
+        (200, "200 Days"),
+        (365, "One Year"),
+        (500, "500 Days"),
+        (730, "Two Years")
+    ]
+    
+    for days, label in milestones:
+        if days_together >= days:
+            status = "✅"
+            color = COLORS['success']
+        else:
+            remaining = days - days_together
+            status = f"📍 {remaining} days to go"
+            color = COLORS['text_light']
+        
+        milestone_text = f"{status} {label}"
+        tk.Label(
+            milestones_frame,
+            text=milestone_text,
+            font=FONTS['body'],
+            bg=COLORS['bg_light'],
+            fg=color
+        ).pack(pady=3)
+    
+    milestones_frame = tk.Frame(container, bg=COLORS['bg_light'], relief='raised', borderwidth=2)
+    milestones_frame.pack(pady=20, padx=10, fill='x')
+    
+    # Anniversary info
+    tk.Label(
+        container,
+        text="💍 Anniversary: November 23rd 💍",
+        font=FONTS['heading'],
+        bg=COLORS['pink_light'],
+        fg=COLORS['accent'],
+        padx=15,
+        pady=10
+    ).pack(pady=10)
+    
+    # Monthly celebration indicator
+    if today.day == 23:
+        tk.Label(
+            container,
+            text="🎊 It's the 23rd! Our monthly celebration day! 🎊",
+            font=FONTS['heading'],
+            bg=COLORS['secondary'],
+            fg=COLORS['white'],
+            padx=15,
+            pady=10
+        ).pack(pady=10)
+    else:
+        next_23rd = 23 - today.day if today.day < 23 else (30 - today.day + 23)
+        tk.Label(
+            container,
+            text=f"Next 23rd in {next_23rd} days",
+            font=FONTS['body'],
+            bg=COLORS['bg_main'],
+            fg=COLORS['text_light']
+        ).pack(pady=5)
+
+
+def create_games_tab(parent, main_window):
+    """Create games tab with Flappy Bird game and achievements"""
+    # Container
+    container = tk.Frame(parent, bg=COLORS['bg_main'])
+    container.pack(fill='both', expand=True, padx=20, pady=20)
+    
+    # Title
+    tk.Label(
+        container,
+        text="🎮 Games & Achievements 🎮",
+        font=FONTS['title'],
+        bg=COLORS['bg_main'],
+        fg=COLORS['accent']
+    ).pack(pady=20)
+    
+    # Description
+    tk.Label(
+        container,
+        text="Play the game when you're bored!\nUnlock sweet achievements as you play ��",
+        font=FONTS['body'],
+        bg=COLORS['bg_main'],
+        fg=COLORS['text_dark'],
+        justify='center'
+    ).pack(pady=15)
+    
+    # Load high score
+    if os.path.exists(HIGHSCORE_FILE):
+        try:
+            with open(HIGHSCORE_FILE, 'r') as f:
+                high_score = int(f.read())
+        except:
+            high_score = 0
+    else:
+        high_score = 0
+    
+    high_score_label = tk.Label(
+        container,
+        text=f"🏆 High Score: {high_score} 🏆",
+        font=FONTS['heading'],
+        bg=COLORS['white'],
+        fg=COLORS['primary'],
+        padx=20,
+        pady=10
+    )
+    high_score_label.pack(pady=10)
+    
+    # Game button
     def open_game():
+        # Import game logic from backup
         game = tk.Toplevel()
-        game.title("Murag Flappy Bird? ")
+        game.title("Murag Flappy Bird? 💗")
         game.geometry("400x500")
         game.resizable(False, False)
-
+        
         game_canvas = tk.Canvas(game, width=400, height=450, bg="#e6f7ff")
-        game_canvas.  pack()
-
+        game_canvas.pack()
+        
         score = 0
         velocity = 0
         pipes = []
         game_running = True
         shown_achievements = set()
-
+        
+        # Load unlocked achievements
+        if os.path.exists(ACHIEVEMENTS_FILE):
+            try:
+                with open(ACHIEVEMENTS_FILE, 'r') as f:
+                    unlocked_achievements = json.load(f)
+            except:
+                unlocked_achievements = []
+        else:
+            unlocked_achievements = []
+        
+        def save_achievement(score):
+            if score not in unlocked_achievements and score in achievements:
+                unlocked_achievements.append(score)
+                with open(ACHIEVEMENTS_FILE, 'w') as f:
+                    json.dump(unlocked_achievements, f)
+        
         player = game_canvas.create_text(80, 225, text="💗", font=("Arial", 28))
-
+        
         score_text = game_canvas.create_text(
             200, 30,
-            text=f"Score:       0  |  High:       {high_score}",
+            text=f"Score: 0 | High: {high_score}",
             font=("Arial", 12, "bold")
         )
-
+        
         def show_achievement_popup(score):
-            """Show achievement popup during game - ONLY IF NOT ALREADY UNLOCKED"""
-            # KEY FIX: Check if achievement is NOT already unlocked globally
             if (score in achievements and 
-                score not in unlocked_achievements and  # ← PREVENTS DUPLICATE POPUPS
+                score not in unlocked_achievements and
                 score not in shown_achievements):
                 
                 shown_achievements.add(score)
@@ -1159,70 +1256,70 @@ def open_main_app():
                 
                 ach = achievements[score]
                 
-                # Create popup window
-                popup = tk.  Toplevel(game)
+                popup = tk.Toplevel(game)
                 popup.title("Achievement Unlocked!")
-                popup.  geometry("350x300")
+                popup.geometry("350x300")
                 popup.resizable(False, False)
-                popup.  configure(bg="#fff0f5")
+                popup.configure(bg=COLORS['bg_main'])
                 popup.transient(game)
-                popup.  grab_set()
+                popup.grab_set()
                 
-                # Achievement content
                 tk.Label(
                     popup,
-                    text="ACHIEVEMENT UNLOCKED!",
-                    font=("Helvetica", 14, "bold"),
-                    bg="#fff0f5",
-                    fg="#b30059"
+                    text="🎉 ACHIEVEMENT UNLOCKED! 🎉",
+                    font=FONTS['heading'],
+                    bg=COLORS['bg_main'],
+                    fg=COLORS['accent']
                 ).pack(pady=15)
                 
                 tk.Label(
                     popup,
                     text=ach['emoji'],
                     font=("Arial", 48),
-                    bg="#fff0f5"
+                    bg=COLORS['bg_main']
                 ).pack(pady=10)
                 
                 tk.Label(
                     popup,
                     text=ach['title'],
-                    font=("Helvetica", 13, "bold"),
-                    bg="#fff0f5",
-                    fg="#b30059"
+                    font=FONTS['heading'],
+                    bg=COLORS['bg_main'],
+                    fg=COLORS['accent']
                 ).pack(pady=5)
                 
                 tk.Label(
                     popup,
                     text=ach['message'],
-                    font=("Helvetica", 10),
-                    bg="#fff0f5",
-                    fg="#4d004d",
+                    font=FONTS['body'],
+                    bg=COLORS['bg_main'],
+                    fg=COLORS['text_dark'],
                     wraplength=300,
                     justify="center"
                 ).pack(pady=10, padx=20)
                 
                 tk.Button(
                     popup,
-                    text="Continue Playing!     ",
-                    font=("Helvetica", 11, "bold"),
-                    bg="#ff66a3",
-                    fg="white",
+                    text="Continue Playing! 💕",
+                    font=FONTS['button'],
+                    bg=COLORS['primary'],
+                    fg=COLORS['white'],
                     command=popup.destroy
                 ).pack(pady=15)
-
+        
         def flap(event=None):
             nonlocal velocity
             if game_running:
                 velocity = -5
-
+        
         def create_pipe():
             gap_y = random.randint(130, 300)
             gap_size = 200
-            top = game_canvas.create_rectangle(400, 0, 450, gap_y - gap_size//2, fill="#ff80bf", outline="#ff4da6", width=2)
-            bottom = game_canvas.create_rectangle(400, gap_y + gap_size//2, 450, 450, fill="#ff80bf", outline="#ff4da6", width=2)
+            top = game_canvas.create_rectangle(400, 0, 450, gap_y - gap_size//2, 
+                                              fill="#ff80bf", outline="#ff4da6", width=2)
+            bottom = game_canvas.create_rectangle(400, gap_y + gap_size//2, 450, 450, 
+                                                  fill="#ff80bf", outline="#ff4da6", width=2)
             pipes.append((top, bottom, False))
-
+        
         def hit_pipe():
             coords = game_canvas.bbox(player)
             if not coords:
@@ -1233,7 +1330,7 @@ def open_main_app():
                 top_coords = game_canvas.bbox(top)
                 bottom_coords = game_canvas.bbox(bottom)
                 
-                if not top_coords or not bottom_coords:     
+                if not top_coords or not bottom_coords:
                     continue
                     
                 tx1, ty1, tx2, ty2 = top_coords
@@ -1244,143 +1341,746 @@ def open_main_app():
                 if (px1 < bx2 and px2 > bx1 and py1 < by2 and py2 > by1):
                     return True
             return False
-
+        
         def move():
             nonlocal velocity, score, game_running, high_score
-
-            if not game_running:  
+            
+            if not game_running:
                 return
-
+            
             velocity += 0.25
             game_canvas.move(player, 0, velocity)
-
-            for i, pipe in enumerate(pipes[:   ]):
+            
+            for i, pipe in enumerate(pipes[:]):
                 top, bottom, scored = pipe
                 game_canvas.move(top, -3, 0)
                 game_canvas.move(bottom, -3, 0)
-
+                
                 if not scored and game_canvas.coords(top)[2] < 80:
                     pipes[pipes.index(pipe)] = (top, bottom, True)
                     score += 1
                     game_canvas.itemconfig(
                         score_text,
-                        text=f"Score:     {score}  |  High:     {high_score}"
+                        text=f"Score: {score} | High: {high_score}"
                     )
-                    
-                    # Check for NEW achievement only
                     show_achievement_popup(score)
-
+                
                 if game_canvas.coords(top)[2] < 0:
                     game_canvas.delete(top)
                     game_canvas.delete(bottom)
                     pipes.remove(pipe)
-
+            
             coords = game_canvas.coords(player)
             if not coords:
                 return
-
+            
             y = coords[1]
-
+            
             if y < 15 or y > 435 or hit_pipe():
                 end_game()
                 return
-
+            
             if random.random() < 0.012:
                 create_pipe()
-
-            game.  after(30, move)
-
+            
+            game.after(30, move)
+        
         def end_game():
             nonlocal game_running, high_score
             game_running = False
-
+            
             if score > high_score:
                 high_score = score
-                with open(HIGHSCORE_FILE, "w") as f:
+                with open(HIGHSCORE_FILE, 'w') as f:
                     f.write(str(high_score))
-
-            game_canvas.create_rectangle(50, 180, 350, 320, fill="white", outline="#ff66a3", width=2)
-
+                high_score_label.config(text=f"🏆 High Score: {high_score} 🏆")
+            
+            game_canvas.create_rectangle(50, 180, 350, 320, 
+                                        fill="white", outline=COLORS['primary'], width=2)
+            
             game_canvas.create_text(
                 200, 250,
                 text=f"Game Over 💔\nScore: {score}\nHigh Score: {high_score}\n\nTry again baby!",
-                font=("Helvetica", 12, "bold"),
-                fill="#b30059",
+                font=FONTS['body'],
+                fill=COLORS['accent'],
                 justify="center"
             )
-
+            
             tk.Button(
                 game,
-                text=" Play Again",
-                font=("Helvetica", 11, "bold"),
-                bg="#ff66a3",
-                fg="white",
+                text="🔁 Play Again",
+                font=FONTS['button'],
+                bg=COLORS['primary'],
+                fg=COLORS['white'],
                 command=lambda: restart_game(game)
             ).pack(pady=10)
-
+        
         def restart_game(old_game):
             old_game.destroy()
             open_game()
-
+        
         game_canvas.create_text(
             200, 425,
-            text="Press SPACE or CLICK!     ",
+            text="Press SPACE or CLICK! 💕",
             font=("Arial", 10),
-            fill="#4d004d"
+            fill=COLORS['text_dark']
         )
-
-        game.  bind("<space>", flap)
-        game. bind("<Button-1>", flap)
-
+        
+        game.bind("<space>", flap)
+        game.bind("<Button-1>", flap)
+        
         move()
-
-    # ================= GAME BUTTONS =================
-    game_button_frame = tk.Frame(frame, bg="#fff0f5")
-    game_button_frame.pack(pady=10)
-
+    
     tk.Button(
-        game_button_frame,
-        text="🎮 Play when you're bored",
-        font=("Helvetica", 12, "bold"),
-        bg="#ff66a3",
-        fg="white",
-        padx=20,
-        pady=10,
-        command=lambda: open_game()
-    ).pack(side="left", padx=5)
-
+        container,
+        text="🎮 Play Game",
+        font=FONTS['heading'],
+        bg=COLORS['primary'],
+        fg=COLORS['white'],
+        width=20,
+        height=3,
+        command=open_game
+    ).pack(pady=20)
+    
+    # Achievements button
+    def show_achievements():
+        ach_window = tk.Toplevel()
+        ach_window.title("Achievements 🏆")
+        ach_window.geometry("400x500")
+        ach_window.resizable(False, False)
+        ach_window.configure(bg=COLORS['bg_main'])
+        
+        tk.Label(
+            ach_window,
+            text="🏆 Your Achievements 🏆",
+            font=FONTS['title'],
+            bg=COLORS['bg_main'],
+            fg=COLORS['accent']
+        ).pack(pady=15)
+        
+        # Load unlocked achievements
+        if os.path.exists(ACHIEVEMENTS_FILE):
+            try:
+                with open(ACHIEVEMENTS_FILE, 'r') as f:
+                    unlocked_achievements = json.load(f)
+            except:
+                unlocked_achievements = []
+        else:
+            unlocked_achievements = []
+        
+        # Create scrollable frame
+        ach_canvas = tk.Canvas(ach_window, bg=COLORS['bg_main'], highlightthickness=0)
+        ach_scrollbar = tk.Scrollbar(ach_window, orient="vertical", command=ach_canvas.yview)
+        scrollable = tk.Frame(ach_canvas, bg=COLORS['bg_main'])
+        
+        scrollable.bind(
+            "<Configure>",
+            lambda e: ach_canvas.configure(scrollregion=ach_canvas.bbox("all"))
+        )
+        
+        ach_canvas.create_window((0, 0), window=scrollable, anchor="nw")
+        ach_canvas.configure(yscrollcommand=ach_scrollbar.set)
+        
+        ach_canvas.pack(side="left", fill="both", expand=True, padx=10)
+        ach_scrollbar.pack(side="right", fill="y")
+        
+        # Display achievements
+        for score in sorted(achievements.keys()):
+            ach = achievements[score]
+            is_unlocked = score in unlocked_achievements
+            
+            ach_frame = tk.Frame(
+                scrollable,
+                bg=COLORS['pink_light'] if is_unlocked else "#e0e0e0",
+                relief="raised",
+                borderwidth=2
+            )
+            ach_frame.pack(pady=10, padx=10, fill="x")
+            
+            tk.Label(
+                ach_frame,
+                text=f"{ach['emoji']} {ach['title']}" if is_unlocked else f"🔒 Score {score} to unlock",
+                font=FONTS['body'],
+                bg=COLORS['pink_light'] if is_unlocked else "#e0e0e0",
+                fg=COLORS['accent'] if is_unlocked else "#808080"
+            ).pack(pady=5)
+            
+            if is_unlocked:
+                tk.Label(
+                    ach_frame,
+                    text=ach['message'],
+                    font=FONTS['small'],
+                    bg=COLORS['pink_light'],
+                    fg=COLORS['text_dark'],
+                    wraplength=350,
+                    justify="center"
+                ).pack(pady=5, padx=10)
+        
+        tk.Button(
+            ach_window,
+            text="Close",
+            font=FONTS['button'],
+            bg=COLORS['primary'],
+            fg=COLORS['white'],
+            command=ach_window.destroy
+        ).pack(pady=10)
+    
     tk.Button(
-        game_button_frame,
-        text="Achievements",
-        font=("Helvetica", 12, "bold"),
-        bg="#9966ff",
-        fg="white",
-        padx=20,
-        pady=10,
+        container,
+        text="🏆 View Achievements",
+        font=FONTS['heading'],
+        bg=COLORS['secondary'],
+        fg=COLORS['white'],
+        width=20,
+        height=2,
         command=show_achievements
-    ).pack(side="right", padx=5)
-
-    # ================= FOOTER =================
-    tk.Label(
-        frame,
-        text="Made with love, just for you",
-        font=("Helvetica", 9),
-        bg="#fff0f5",
-        fg="#800040"
-    ).pack(pady=5)
-
-    tk.Label(
-        frame,
-        text="Even when you're bored,\nI'm here with you 💗",
-        font=("Helvetica", 10),
-        bg="#fff0f5",
-        fg="#800040"
     ).pack(pady=10)
 
-    # ================= START ANIMATION =================
-    animate_hearts()
 
-    window.mainloop()
+def create_journal_tab(parent, journal_manager, days_together, mood_messages):
+    """Create journal tab with entry form and history"""
+    container = tk.Frame(parent, bg=COLORS['bg_main'])
+    container.pack(fill='both', expand=True, padx=10, pady=10)
+    
+    # Title
+    tk.Label(
+        container,
+        text="💭 Memory Journal 💭",
+        font=FONTS['title'],
+        bg=COLORS['bg_main'],
+        fg=COLORS['accent']
+    ).pack(pady=15)
+    
+    # Description
+    tk.Label(
+        container,
+        text="Write your thoughts and memories here\nThey'll be saved and optionally emailed 💕",
+        font=FONTS['body'],
+        bg=COLORS['bg_main'],
+        fg=COLORS['text_dark'],
+        justify='center'
+    ).pack(pady=5)
+    
+    # ===== NEW ENTRY SECTION =====
+    entry_frame = tk.Frame(container, bg=COLORS['white'], relief='raised', borderwidth=2)
+    entry_frame.pack(pady=10, padx=10, fill='both')
+    
+    tk.Label(
+        entry_frame,
+        text="How are you feeling today?",
+        font=FONTS['heading'],
+        bg=COLORS['white'],
+        fg=COLORS['accent']
+    ).pack(pady=10)
+    
+    # Mood selector
+    mood_frame = tk.Frame(entry_frame, bg=COLORS['white'])
+    mood_frame.pack(pady=5)
+    
+    tk.Label(
+        mood_frame,
+        text="Mood:",
+        font=FONTS['body'],
+        bg=COLORS['white'],
+        fg=COLORS['text_dark']
+    ).pack(side='left', padx=5)
+    
+    mood_var = tk.StringVar()
+    mood_choices = list(mood_messages.keys())
+    mood_var.set(mood_choices[0])
+    
+    mood_dropdown = ttk.Combobox(
+        mood_frame,
+        textvariable=mood_var,
+        values=mood_choices,
+        state='readonly',
+        width=20,
+        font=FONTS['body']
+    )
+    mood_dropdown.pack(side='left', padx=5)
+    
+    # Text entry
+    tk.Label(
+        entry_frame,
+        text="Write your thoughts:",
+        font=FONTS['body'],
+        bg=COLORS['white'],
+        fg=COLORS['text_dark']
+    ).pack(pady=(10, 5))
+    
+    entry_text = scrolledtext.ScrolledText(
+        entry_frame,
+        height=6,
+        width=60,
+        font=FONTS['body'],
+        wrap=tk.WORD
+    )
+    entry_text.pack(pady=5, padx=10)
+    
+    # Character count
+    char_count_label = tk.Label(
+        entry_frame,
+        text="0 characters",
+        font=FONTS['small'],
+        bg=COLORS['white'],
+        fg=COLORS['text_light']
+    )
+    char_count_label.pack(pady=2)
+    
+    def update_char_count(event=None):
+        count = len(entry_text.get('1.0', 'end-1c'))
+        char_count_label.config(text=f"{count} characters")
+    
+    entry_text.bind('<KeyRelease>', update_char_count)
+    
+    # Save button
+    status_label = tk.Label(
+        entry_frame,
+        text="",
+        font=FONTS['small'],
+        bg=COLORS['white'],
+        fg=COLORS['success']
+    )
+    status_label.pack(pady=5)
+    
+    def save_entry():
+        text = entry_text.get('1.0', 'end-1c').strip()
+        if not text:
+            messagebox.showwarning("Empty Entry", "Please write something before saving!")
+            return
+        
+        mood = mood_var.get()
+        success, message, email_sent = journal_manager.add_entry(mood, text, days_together)
+        
+        if success:
+            status_text = "Entry saved! ✅"
+            if email_sent:
+                status_text += " Email sent! ��"
+            else:
+                status_text += f" ({message})"
+            
+            status_label.config(text=status_text, fg=COLORS['success'])
+            entry_text.delete('1.0', 'end')
+            update_char_count()
+            refresh_history()
+            
+            # Show success message
+            messagebox.showinfo("Success", "Your journal entry has been saved! 💕")
+        else:
+            status_label.config(text=f"Error: {message}", fg="#cc0000")
+    
+    def clear_entry():
+        entry_text.delete('1.0', 'end')
+        update_char_count()
+        status_label.config(text="")
+    
+    btn_frame = tk.Frame(entry_frame, bg=COLORS['white'])
+    btn_frame.pack(pady=10)
+    
+    tk.Button(
+        btn_frame,
+        text="💾 Save & Send",
+        font=FONTS['button'],
+        bg=COLORS['primary'],
+        fg=COLORS['white'],
+        width=15,
+        height=2,
+        command=save_entry
+    ).pack(side='left', padx=5)
+    
+    tk.Button(
+        btn_frame,
+        text="Clear",
+        font=FONTS['button'],
+        bg=COLORS['text_light'],
+        fg=COLORS['white'],
+        width=10,
+        height=2,
+        command=clear_entry
+    ).pack(side='left', padx=5)
+    
+    # ===== STATISTICS SECTION =====
+    stats_frame = tk.Frame(container, bg=COLORS['bg_light'], relief='raised', borderwidth=2)
+    stats_frame.pack(pady=10, padx=10, fill='x')
+    
+    stats_title = tk.Label(
+        stats_frame,
+        text="📊 Journal Statistics 📊",
+        font=FONTS['heading'],
+        bg=COLORS['bg_light'],
+        fg=COLORS['accent']
+    )
+    stats_title.pack(pady=10)
+    
+    stats_content = tk.Frame(stats_frame, bg=COLORS['bg_light'])
+    stats_content.pack(pady=5, padx=10)
+    
+    def update_statistics():
+        stats = journal_manager.get_statistics()
+        
+        for widget in stats_content.winfo_children():
+            widget.destroy()
+        
+        stats_text = f"""
+        Total Entries: {stats['total_entries']}
+        Writing Streak: {stats['writing_streak']} days
+        Most Common Mood: {stats['most_common_mood']}
+        First Entry: {stats['first_entry_date']}
+        """
+        
+        tk.Label(
+            stats_content,
+            text=stats_text,
+            font=FONTS['body'],
+            bg=COLORS['bg_light'],
+            fg=COLORS['text_dark'],
+            justify='left'
+        ).pack()
+    
+    update_statistics()
+    
+    # ===== HISTORY SECTION =====
+    history_frame = tk.Frame(container, bg=COLORS['bg_main'])
+    history_frame.pack(pady=10, padx=10, fill='both', expand=True)
+    
+    tk.Label(
+        history_frame,
+        text="──── Previous Entries ────",
+        font=FONTS['heading'],
+        bg=COLORS['bg_main'],
+        fg=COLORS['accent']
+    ).pack(pady=10)
+    
+    # Filter controls
+    filter_frame = tk.Frame(history_frame, bg=COLORS['bg_main'])
+    filter_frame.pack(pady=5)
+    
+    tk.Label(
+        filter_frame,
+        text="Filter by mood:",
+        font=FONTS['body'],
+        bg=COLORS['bg_main']
+    ).pack(side='left', padx=5)
+    
+    filter_var = tk.StringVar()
+    filter_var.set("All Moods")
+    
+    filter_choices = ["All Moods"] + mood_choices
+    filter_dropdown = ttk.Combobox(
+        filter_frame,
+        textvariable=filter_var,
+        values=filter_choices,
+        state='readonly',
+        width=18
+    )
+    filter_dropdown.pack(side='left', padx=5)
+    
+    # Search box
+    search_frame = tk.Frame(history_frame, bg=COLORS['bg_main'])
+    search_frame.pack(pady=5)
+    
+    tk.Label(
+        search_frame,
+        text="Search:",
+        font=FONTS['body'],
+        bg=COLORS['bg_main']
+    ).pack(side='left', padx=5)
+    
+    search_var = tk.StringVar()
+    search_entry = tk.Entry(
+        search_frame,
+        textvariable=search_var,
+        font=FONTS['body'],
+        width=30
+    )
+    search_entry.pack(side='left', padx=5)
+    
+    # History list
+    history_canvas = tk.Canvas(history_frame, bg=COLORS['bg_main'], highlightthickness=0, height=200)
+    history_scrollbar = tk.Scrollbar(history_frame, orient="vertical", command=history_canvas.yview)
+    history_list = tk.Frame(history_canvas, bg=COLORS['bg_main'])
+    
+    history_list.bind(
+        "<Configure>",
+        lambda e: history_canvas.configure(scrollregion=history_canvas.bbox("all"))
+    )
+    
+    history_canvas.create_window((0, 0), window=history_list, anchor="nw")
+    history_canvas.configure(yscrollcommand=history_scrollbar.set)
+    
+    history_canvas.pack(side="left", fill="both", expand=True)
+    history_scrollbar.pack(side="right", fill="y")
+    
+    def refresh_history(event=None):
+        # Clear current history
+        for widget in history_list.winfo_children():
+            widget.destroy()
+        
+        # Get filtered entries
+        mood_filter = filter_var.get()
+        search_term = search_var.get()
+        
+        entries = journal_manager.get_entries(
+            mood_filter=mood_filter if mood_filter != "All Moods" else None,
+            search_term=search_term if search_term else None
+        )
+        
+        if not entries:
+            tk.Label(
+                history_list,
+                text="No entries found. Start writing! 💕",
+                font=FONTS['body'],
+                bg=COLORS['bg_main'],
+                fg=COLORS['text_light']
+            ).pack(pady=20)
+            return
+        
+        for entry in entries[:10]:  # Show latest 10
+            entry_frame = tk.Frame(
+                history_list,
+                bg=COLORS['white'],
+                relief='raised',
+                borderwidth=1
+            )
+            entry_frame.pack(pady=5, padx=5, fill='x')
+            
+            # Header
+            header_text = f"{entry.get('mood', 'Unknown')} - {entry.get('date', 'Unknown')}"
+            tk.Label(
+                entry_frame,
+                text=header_text,
+                font=FONTS['button'],
+                bg=COLORS['white'],
+                fg=COLORS['accent']
+            ).pack(anchor='w', padx=10, pady=5)
+            
+            # Preview
+            preview = entry.get('entry', '')[:100] + ('...' if len(entry.get('entry', '')) > 100 else '')
+            tk.Label(
+                entry_frame,
+                text=preview,
+                font=FONTS['small'],
+                bg=COLORS['white'],
+                fg=COLORS['text_dark'],
+                wraplength=500,
+                justify='left'
+            ).pack(anchor='w', padx=10, pady=5)
+            
+            # Email status
+            if entry.get('email_sent'):
+                tk.Label(
+                    entry_frame,
+                    text="📧 Email sent",
+                    font=FONTS['small'],
+                    bg=COLORS['white'],
+                    fg=COLORS['success']
+                ).pack(anchor='w', padx=10, pady=2)
+        
+        update_statistics()
+    
+    # Bind filter changes
+    filter_dropdown.bind('<<ComboboxSelected>>', refresh_history)
+    search_entry.bind('<KeyRelease>', refresh_history)
+    
+    # Initial history load
+    refresh_history()
 
+
+def create_settings_tab(parent, settings_manager, email_notifier):
+    """Create settings tab"""
+    # Create scrollable container
+    canvas = tk.Canvas(parent, bg=COLORS['bg_main'], highlightthickness=0)
+    scrollbar = tk.Scrollbar(parent, orient="vertical", command=canvas.yview)
+    container = tk.Frame(canvas, bg=COLORS['bg_main'])
+    
+    container.bind(
+        "<Configure>",
+        lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+    )
+    
+    canvas.create_window((0, 0), window=container, anchor="nw")
+    canvas.configure(yscrollcommand=scrollbar.set)
+    
+    canvas.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
+    
+    # Title
+    tk.Label(
+        container,
+        text="⚙️ Settings ⚙️",
+        font=FONTS['title'],
+        bg=COLORS['bg_main'],
+        fg=COLORS['accent']
+    ).pack(pady=20)
+    
+    # ===== EMAIL SETTINGS =====
+    email_frame = tk.Frame(container, bg=COLORS['white'], relief='raised', borderwidth=2)
+    email_frame.pack(pady=10, padx=20, fill='x')
+    
+    tk.Label(
+        email_frame,
+        text="📧 Email Notification Settings",
+        font=FONTS['heading'],
+        bg=COLORS['white'],
+        fg=COLORS['accent']
+    ).pack(pady=10)
+    
+    tk.Label(
+        email_frame,
+        text="Configure email notifications for journal entries",
+        font=FONTS['body'],
+        bg=COLORS['white'],
+        fg=COLORS['text_dark']
+    ).pack(pady=5)
+    
+    # Enable/disable notifications
+    notif_var = tk.BooleanVar()
+    notif_var.set(email_notifier.config.get('notifications_enabled', False))
+    
+    tk.Checkbutton(
+        email_frame,
+        text="Enable email notifications",
+        variable=notif_var,
+        font=FONTS['body'],
+        bg=COLORS['white'],
+        fg=COLORS['text_dark'],
+        selectcolor=COLORS['bg_light']
+    ).pack(pady=10)
+    
+    # Email fields
+    fields_frame = tk.Frame(email_frame, bg=COLORS['white'])
+    fields_frame.pack(pady=10, padx=20, fill='x')
+    
+    tk.Label(
+        fields_frame,
+        text="Sender Email:",
+        font=FONTS['body'],
+        bg=COLORS['white']
+    ).grid(row=0, column=0, sticky='w', pady=5)
+    
+    sender_var = tk.StringVar()
+    sender_var.set(email_notifier.config.get('sender_email', ''))
+    tk.Entry(
+        fields_frame,
+        textvariable=sender_var,
+        font=FONTS['body'],
+        width=30
+    ).grid(row=0, column=1, pady=5, padx=5)
+    
+    tk.Label(
+        fields_frame,
+        text="App Password:",
+        font=FONTS['body'],
+        bg=COLORS['white']
+    ).grid(row=1, column=0, sticky='w', pady=5)
+    
+    password_var = tk.StringVar()
+    password_var.set(email_notifier.config.get('sender_password', ''))
+    tk.Entry(
+        fields_frame,
+        textvariable=password_var,
+        font=FONTS['body'],
+        width=30,
+        show="*"
+    ).grid(row=1, column=1, pady=5, padx=5)
+    
+    tk.Label(
+        fields_frame,
+        text="Recipient Email:",
+        font=FONTS['body'],
+        bg=COLORS['white']
+    ).grid(row=2, column=0, sticky='w', pady=5)
+    
+    recipient_var = tk.StringVar()
+    recipient_var.set(email_notifier.config.get('recipient_email', ''))
+    tk.Entry(
+        fields_frame,
+        textvariable=recipient_var,
+        font=FONTS['body'],
+        width=30
+    ).grid(row=2, column=1, pady=5, padx=5)
+    
+    # Save email settings
+    email_status = tk.Label(
+        email_frame,
+        text="",
+        font=FONTS['small'],
+        bg=COLORS['white']
+    )
+    email_status.pack(pady=5)
+    
+    def save_email_settings():
+        config = email_notifier.config.copy()
+        config['notifications_enabled'] = notif_var.get()
+        config['sender_email'] = sender_var.get()
+        config['sender_password'] = password_var.get()
+        config['recipient_email'] = recipient_var.get()
+        
+        if email_notifier.save_config(config):
+            email_status.config(text="✅ Email settings saved!", fg=COLORS['success'])
+        else:
+            email_status.config(text="❌ Error saving settings", fg="#cc0000")
+    
+    tk.Button(
+        email_frame,
+        text="💾 Save Email Settings",
+        font=FONTS['button'],
+        bg=COLORS['primary'],
+        fg=COLORS['white'],
+        command=save_email_settings
+    ).pack(pady=10)
+    
+    # Link to documentation
+    tk.Label(
+        email_frame,
+        text="Need help? Check EMAIL_SETUP.md for instructions",
+        font=FONTS['small'],
+        bg=COLORS['white'],
+        fg=COLORS['text_light'],
+        cursor="hand2"
+    ).pack(pady=5)
+    
+    # ===== APP INFO =====
+    info_frame = tk.Frame(container, bg=COLORS['bg_light'], relief='raised', borderwidth=2)
+    info_frame.pack(pady=20, padx=20, fill='x')
+    
+    tk.Label(
+        info_frame,
+        text="ℹ️ About",
+        font=FONTS['heading'],
+        bg=COLORS['bg_light'],
+        fg=COLORS['accent']
+    ).pack(pady=10)
+    
+    info_text = """
+    EverydayMood App v2.0
+    Enhanced with Tab-Based UI & Journal Feature
+    
+    Made with 💕 for Bianca
+    
+    Features:
+    • Daily mood tracker with sweet messages
+    • Timeline with milestones
+    • Flappy Bird game with achievements
+    • Private journal with email notifications
+    • Customizable settings
+    
+    © 2024 - Created with love
+    """
+    
+    tk.Label(
+        info_frame,
+        text=info_text,
+        font=FONTS['body'],
+        bg=COLORS['bg_light'],
+        fg=COLORS['text_dark'],
+        justify='center'
+    ).pack(pady=10, padx=20)
+
+
+
+
+# ================= START APPLICATION =================
 # Start with login window
-login_window.  mainloop()
+login_window.mainloop()
+
